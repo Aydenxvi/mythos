@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
-import { museumBronze, darkBronze, museumStone } from './museumMaterials'
+import { museumBronze, darkBronze, museumStone, darkMarble } from './museumMaterials'
+import { surfaceDisk } from './surfaceGeometry'
 import { ROOM_DEPTH_EXPORT as DEPTH, ROOM_WIDTH_EXPORT as WIDTH } from '../../data/world'
 import type { Civilization } from '../../types/museum'
 
@@ -31,9 +32,9 @@ export function GalleryDetails({ civ }: { civ: Civilization }) {
   return <group>
     {floorInlay.map((line,i)=><mesh key={i} position={[...line.pos]} scale={[...line.scale]} material={edge} receiveShadow><boxGeometry args={[1,1,1]}/></mesh>)}
     {/* A large stone roundel anchors the plinth in its niche. */}
-    <mesh material={warm} rotation={[-Math.PI/2,0,0]} position={[0,.02,-DEPTH*.12]} receiveShadow><circleGeometry args={[2.55,64]}/></mesh>
+    <mesh geometry={surfaceDisk(2.55)} material={civ==='egypt'?warm:darkMarble} rotation={[-Math.PI/2,0,0]} position={[0,.02,-DEPTH*.12]} receiveShadow />
     <mesh material={edge} rotation={[Math.PI/2,0,0]} position={[0,.026,-DEPTH*.12]}><torusGeometry args={[2.55,.021,8,96]}/></mesh>
-    <mesh material={pale} rotation={[-Math.PI/2,0,0]} position={[0,.027,-DEPTH*.12]}><ringGeometry args={[2.19,2.26,96]}/></mesh>
+    <mesh geometry={surfaceDisk(2.26,2.19)} material={pale} rotation={[-Math.PI/2,0,0]} position={[0,.027,-DEPTH*.12]} />
     {civ==='greece'&&<group>
       {/* Repeated angular frieze, derived from the rhythm of a Greek key. */}
       <mesh geometry={greekFrieze} material={edge} position={[0,4.58,-DEPTH/2+.38]} />

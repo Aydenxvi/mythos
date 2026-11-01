@@ -3,7 +3,6 @@ import { EgyptianColumn } from '../../components/architecture/EgyptianColumn'
 import { EgyptianRelief } from '../../components/architecture/EgyptianRelief'
 import { GalleryDetails } from '../../components/architecture/GalleryDetails'
 import { RectFloor } from '../../components/architecture/Floor'
-import { geometries } from '../../components/architecture/geometryCache'
 import { museumStone, museumBronze } from '../../components/architecture/museumMaterials'
 import { THEMES } from '../../components/architecture/theme'
 import { ROOMS, ROOM_WIDTH_EXPORT as WIDTH, ROOM_DEPTH_EXPORT as DEPTH } from '../../data/world'
@@ -32,10 +31,8 @@ export function RoomShell({civ,columnsPerSide=3,columnHeight=4.2,columnRadiusSca
     {[-1,1].map(side=><group key={side}>
       <mesh geometry={surfaceBox(0.32,wallHeight+0.6,DEPTH+0.2)} material={wall} position={[side*WIDTH/2,wallHeight/2+0.3,0]}
         receiveShadow />
-      <mesh geometry={geometries.unitBox} material={detail} position={[side*(WIDTH/2-0.16),0.26,0]}
-        scale={[0.22,0.52,DEPTH]} receiveShadow />
-      <mesh geometry={geometries.unitBox} material={detail} position={[side*(WIDTH/2-0.16),wallHeight-0.2,0]}
-        scale={[0.22,0.27,DEPTH]} receiveShadow />
+      <mesh geometry={surfaceBox(0.22,0.52,DEPTH,2)} material={detail} position={[side*(WIDTH/2-0.16),0.26,0]} receiveShadow />
+      <mesh geometry={surfaceBox(0.22,0.27,DEPTH,2)} material={detail} position={[side*(WIDTH/2-0.16),wallHeight-0.2,0]} receiveShadow />
       {columnZ.map((z,i)=>civ==='egypt'
         ? <EgyptianColumn key={i} position={[side*(WIDTH/2-0.98),0,z]} height={columnHeight} radiusScale={columnRadiusScale * 0.9}/>
         : <Column key={i} position={[side*(WIDTH/2-0.86),0,z]}
@@ -43,7 +40,7 @@ export function RoomShell({civ,columnsPerSide=3,columnHeight=4.2,columnRadiusSca
     </group>)}
     <mesh geometry={surfaceBox(WIDTH,wallHeight+0.6,0.42)} material={wall}
       position={[0,(wallHeight+0.6)/2,-DEPTH/2]} receiveShadow />
-    <mesh geometry={geometries.unitBox} material={detail} scale={[WIDTH+0.15,0.42,0.55]}
+    <mesh geometry={surfaceBox(WIDTH+0.15,0.42,0.55,2)} material={detail}
       position={[0,wallHeight+0.12,-DEPTH/2]} receiveShadow />
     {/* Egyptian gallery receives an independent shallow relief, not Greek orders everywhere. */}
     {civ==='egypt' && <EgyptianRelief wallZ={-DEPTH/2+0.36} />}
@@ -52,10 +49,10 @@ export function RoomShell({civ,columnsPerSide=3,columnHeight=4.2,columnRadiusSca
       position={[0,3.2,-DEPTH/2+0.26]}/>
     <mesh geometry={surfaceBox(3.37,4.46,0.042)} material={wall}
       position={[0,3.2,-DEPTH/2+0.3]}/>
-    <mesh geometry={geometries.unitBox} material={detail}
-      position={[0,0.32,-DEPTH/2+0.34]} scale={[4,0.56,0.75]}/>
+    <mesh geometry={surfaceBox(4,0.56,0.75,2)} material={detail}
+      position={[0,0.32,-DEPTH/2+0.34]}/>
     {/* Stepped ceiling and beams make the interiors feel enclosed and continuous. */}
-    <mesh geometry={geometries.unitBox} material={detail} scale={[WIDTH+0.12,0.32,DEPTH]}
+    <mesh geometry={surfaceBox(WIDTH+0.12,0.32,DEPTH)} material={wallMaterial('ivory')}
       position={[0,wallHeight+0.72,0]} receiveShadow />
     {[ -DEPTH/2 + 2.1, 0, DEPTH/2 - 2.1].map(z=><mesh key={z}
       geometry={surfaceBox(WIDTH,0.30,0.52)} material={wall}

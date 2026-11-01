@@ -1,53 +1,47 @@
 import * as THREE from 'three'
+import { photoTexture } from './photoTextures'
 
 export type StoneKind = 'ivory' | 'travertine' | 'limestone' | 'sandstone'
-const palette: Record<StoneKind, { tone: number; variation: number; warmth: number }> = {
-  ivory: { tone: 238, variation: 8, warmth: 1.01 },
-  travertine: { tone: 224, variation: 15, warmth: 0.84 },
-  limestone: { tone: 211, variation: 12, warmth: 0.91 },
-  sandstone: { tone: 194, variation: 21, warmth: 0.96 },
-}
+const cache = new Map<string, THREE.MeshStandardMaterial>()
 
-const cache = new Map<StoneKind, THREE.MeshStandardMaterial>()
-/** Locally generated fine-grain stone texture. No downloads, CORS, or missing assets. */
-export function museumStone(kind: StoneKind): THREE.MeshStandardMaterial {
-  const existing = cache.get(kind)
-  if (existing) return existing
-  const { tone, variation, warmth } = palette[kind]
-  const size = 256
-  const pixels = new Uint8Array(size * size * 4)
-  const fract = (n: number) => n - Math.floor(n)
-  const hash = (x: number, y: number) => fract(Math.sin(x * 127.1 + y * 311.7 + 49.3) * 43758.5453)
-  const lerp = (a: number, b: number, t: number) => a + (b - a) * t
-  const noise = (x: number, y: number, grid: number) => {
-    const px = x * grid / size; const py = y * grid / size
-    const xi = Math.floor(px); const yi = Math.floor(py)
-    const tx = px - xi; const ty = py - yi
-    const sx = tx * tx * (3 - 2 * tx); const sy = ty * ty * (3 - 2 * ty)
-    return lerp(lerp(hash(xi, yi), hash(xi+1, yi), sx), lerp(hash(xi, yi+1), hash(xi+1, yi+1), sx), sy)
+function finish(key: string, asset: string, color: string, roughness: number, relief: number, metalness = 0) {
+  let material = cache.get(key)
+  if (!material) {
+    material = new THREE.MeshStandardMaterial({
+      name: key, color, roughness: 1, metalness,
+      map: photoTexture(asset, 'color'), normalMap: photoTexture(asset, 'normal'),
+      roughnessMap: photoTexture(asset, 'roughness'),
+      normalScale: new THREE.Vector2(relief, relief),
+      envMapIntensity: metalness ? 1.1 : 0.65,
+    })
+    // Source marble is highly polished. Give each finish a real roughness
+    // range so honed columns do not inherit the floor's mirror-like highlights.
+    const minimum = metalness ? 0.22 : roughness < 0.7 ? 0.24 : 0.52
+    material.onBeforeCompile = shader => {
+      shader.uniforms.mythosRoughnessRange = { value: new THREE.Vector2(minimum, roughness) }
+      shader.fragmentShader = 'uniform vec2 mythosRoughnessRange;\n' + shader.fragmentShader
+      shader.fragmentShader = shader.fragmentShader.replace('#include <roughnessmap_fragment>',
+        '#include <roughnessmap_fragment>\nroughnessFactor = mix(mythosRoughnessRange.x, mythosRoughnessRange.y, roughnessFactor);')
+    }
+    material.customProgramCacheKey = () => 'mythos-roughness-range-v1'
+    cache.set(key, material)
   }
-  for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
-    const grain = (noise(x,y,10)-0.5)*variation + (noise(x,y,40)-0.5)*3
-    const veins = Math.pow(Math.max(0, Math.sin(x*0.12 + y*0.045 + noise(x,y,4)*7)), 22)*variation*0.4
-    const value = tone + grain - veins
-    const idx = (y*size+x)*4
-    pixels[idx] = Math.max(0, Math.min(255, value + (kind === 'sandstone' ? 5 : 4)))
-    pixels[idx+1] = Math.max(0, Math.min(255, value * warmth + (kind === 'sandstone' ? -3 : 10)))
-    pixels[idx+2] = Math.max(0, Math.min(255, value * (warmth-0.09) + (kind === 'sandstone' ? -12 : 15)))
-    pixels[idx+3] = 255
-  }
-  const texture = new THREE.DataTexture(pixels, size, size)
-  texture.colorSpace = THREE.SRGBColorSpace
-  texture.wrapS = texture.wrapT = THREE.RepeatWrapping
-  texture.magFilter = THREE.LinearFilter
-  texture.minFilter = THREE.LinearMipmapLinearFilter
-  texture.generateMipmaps = true
-  texture.anisotropy = 4
-  texture.needsUpdate = true
-  const material = new THREE.MeshStandardMaterial({ map: texture, roughness: 0.87, metalness: 0 })
-  cache.set(kind, material)
   return material
 }
 
-export const museumBronze = new THREE.MeshStandardMaterial({ color: '#a88b5c', metalness: 0.68, roughness: 0.42 })
-export const darkBronze = new THREE.MeshStandardMaterial({ color: '#574735', metalness: 0.56, roughness: 0.55 })
+/** Honed architectural stone; material variation comes from local PBR maps. */
+export function museumStone(kind: StoneKind) {
+  if (kind === 'ivory') return finish(kind, 'Marble012', '#f3f1eb', 0.85, 0.16)
+  if (kind === 'travertine') return finish(kind, 'Travertine009', '#f0e3cf', 0.9, 0.35)
+  if (kind === 'sandstone') return finish(kind, 'Travertine009', '#ceb182', 1, 0.55)
+  return finish(kind, 'Travertine009', '#bcb7a9', 1, 0.3)
+}
+
+export function architecturalStone(color: string, warm = false) {
+  return finish(`cut-stone:${color}:${warm}`, warm ? 'Travertine009' : 'Marble012', color, 0.9, warm ? 0.3 : 0.16)
+}
+
+export const museumBronze = finish('brushed-bronze', 'Metal048A', '#f1d3ab', 0.85, 0.18, 0.85)
+export const darkBronze = finish('aged-bronze', 'Metal048A', '#6b5540', 1, 0.2, 0.8)
+export const darkMarble = finish('dark-marble', 'Marble006', '#d5ded8', 0.65, 0.12)
+export const polishedMarble = finish('polished-marble', 'Marble012', '#eeeae2', 0.55, 0.09)

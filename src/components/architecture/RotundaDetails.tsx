@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
 import * as THREE from 'three'
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
-import { wallMaterial } from './surfaceMaterials'
+import { wallMaterial, surfaceDisk, surfaceCylinder, surfaceBox } from './surfaceMaterials'
 import { Column } from './Column'
 import { geometries } from './geometryCache'
-import { museumStone, museumBronze, darkBronze } from './museumMaterials'
+import { museumStone, museumBronze, darkBronze, darkMarble } from './museumMaterials'
 import { ATRIUM_RADIUS_EXPORT as RADIUS, ROOMS, ROOM_ORDER } from '../../data/world'
 
 const TWO_PI = Math.PI * 2
@@ -61,10 +61,9 @@ export function RotundaFloorInlay() {
   const rings = [2.0, 3.0, 3.38, 6.1, 8.45]
   return (
     <group>
-      <mesh position={[0,0.018,0]} rotation={[-Math.PI/2,0,0]}>
-        <circleGeometry args={[3.1,96]} />
-        <primitive object={stone} attach="material" />
-      </mesh>
+      <mesh geometry={surfaceDisk(3.1)} material={stone} position={[0,0.018,0]} rotation={[-Math.PI/2,0,0]} receiveShadow />
+      <mesh geometry={surfaceDisk(3.36,3.04)} material={darkMarble} position={[0,0.022,0]} rotation={[-Math.PI/2,0,0]} receiveShadow />
+      <mesh geometry={surfaceDisk(8.43,8.13)} material={darkMarble} position={[0,0.022,0]} rotation={[-Math.PI/2,0,0]} receiveShadow />
       {rings.map((r,i)=><mesh key={r} position={[0,0.028+i*0.001,0]} rotation={[Math.PI/2,0,0]} material={i%2===0?museumBronze:darkBronze}>
         <torusGeometry args={[r,i===2?0.07:0.027,8,144]}/>
       </mesh>)}
@@ -89,9 +88,7 @@ export function RotundaColonnade() {
         const x=Math.sin(angle)*r, z=-Math.cos(angle)*r
         return <group key={i}>
           <Column position={[x,0,z]} height={6.45} radiusScale={1.05} color="#eee6d7" />
-          <mesh material={museumStone('ivory')} position={[x,7.32,z]} castShadow receiveShadow>
-            <boxGeometry args={[1.65,0.26,1.65]} />
-          </mesh>
+          <mesh geometry={surfaceBox(1.65,0.26,1.65,2)} material={museumStone('ivory')} position={[x,7.32,z]} castShadow receiveShadow />
         </group>
       })}
     </group>
@@ -107,9 +104,8 @@ export function CentralMonument() {
   const base = museumStone('travertine')
   return <group>
     {[{r:2.05,h:0.16,y:0.08},{r:1.76,h:0.19,y:0.25},{r:1.41,h:0.94,y:0.81},{r:1.58,h:0.19,y:1.36}].map((p,i)=>(
-      <mesh key={i} material={i===2?marble:base} castShadow receiveShadow position={[0,p.y,0]}>
-        <cylinderGeometry args={[p.r,p.r+(i===2?.15:0),p.h,72]} />
-      </mesh>
+      <mesh key={i} geometry={surfaceCylinder(p.r,p.r+(i===2?.15:0),p.h,72)}
+        material={i===2?darkMarble:base} castShadow receiveShadow position={[0,p.y,0]} />
     ))}
     {/* Fine central stem, kept behind the orbital sculpture. */}
     <mesh material={darkBronze} position={[0,1.96,0]} castShadow>

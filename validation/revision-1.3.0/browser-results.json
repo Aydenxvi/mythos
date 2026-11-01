@@ -1,0 +1,402 @@
+{
+  "renderer": "Chromium / SwiftShader (software)",
+  "checks": [
+    "3D sculpture click uses a 12-triangle proxy; inspection registers zero picking targets",
+    "Athena: quality budgets, tabs, symbol, journal, audio control, orbit/zoom, Escape",
+    "Three-stop tour, cross-room navigation, atlas/timeline, persisted journal",
+    "Repeated warmed room circuit has stable GPU resource counts",
+    "Cinematic route completes; INSTANT finishes active travel",
+    "390px mobile: separate artwork viewport, no horizontal overflow, reduced motion",
+    "Missing GLB: boundary displays fallback and navigation remains usable"
+  ],
+  "errors": [],
+  "models": [
+    {
+      "name": "athena-walston-lite.glb",
+      "status": 200
+    },
+    {
+      "name": "athena-balanced.glb",
+      "status": 200
+    },
+    {
+      "name": "athena-high.glb",
+      "status": 200
+    },
+    {
+      "name": "zeus-lite.glb",
+      "status": 200
+    },
+    {
+      "name": "zeus-optimized.glb",
+      "status": 200
+    },
+    {
+      "name": "anubis-detail.glb",
+      "status": 200
+    },
+    {
+      "name": "athena-high.glb",
+      "status": 200
+    },
+    {
+      "name": "anubis-detail.glb",
+      "status": 200
+    },
+    {
+      "name": "zeus-optimized.glb",
+      "status": 200
+    },
+    {
+      "name": "athena-walston-lite.glb",
+      "status": 200
+    },
+    {
+      "name": "anubis-optimized.glb",
+      "status": 200
+    }
+  ],
+  "textures": [
+    {
+      "name": "Metal048A_color.jpg",
+      "status": 200
+    },
+    {
+      "name": "Metal048A_normal.jpg",
+      "status": 200
+    },
+    {
+      "name": "Metal048A_roughness.jpg",
+      "status": 200
+    },
+    {
+      "name": "Marble006_color.jpg",
+      "status": 200
+    },
+    {
+      "name": "Marble006_normal.jpg",
+      "status": 200
+    },
+    {
+      "name": "Marble006_roughness.jpg",
+      "status": 200
+    },
+    {
+      "name": "Marble012_color.jpg",
+      "status": 200
+    },
+    {
+      "name": "Marble012_normal.jpg",
+      "status": 200
+    },
+    {
+      "name": "Marble012_roughness.jpg",
+      "status": 200
+    },
+    {
+      "name": "Travertine009_color.jpg",
+      "status": 200
+    },
+    {
+      "name": "Travertine009_roughness.jpg",
+      "status": 200
+    },
+    {
+      "name": "Travertine009_normal.jpg",
+      "status": 200
+    },
+    {
+      "name": "plastered_wall_04_normal.jpg",
+      "status": 200
+    },
+    {
+      "name": "plastered_wall_04_color.jpg",
+      "status": 200
+    },
+    {
+      "name": "plastered_wall_04_roughness.jpg",
+      "status": 200
+    },
+    {
+      "name": "sandstone_blocks_08_color.jpg",
+      "status": 200
+    },
+    {
+      "name": "sandstone_blocks_08_normal.jpg",
+      "status": 200
+    },
+    {
+      "name": "sandstone_blocks_08_roughness.jpg",
+      "status": 200
+    },
+    {
+      "name": "marble_01_color.jpg",
+      "status": 200
+    },
+    {
+      "name": "marble_01_normal.jpg",
+      "status": 200
+    },
+    {
+      "name": "marble_01_roughness.jpg",
+      "status": 200
+    },
+    {
+      "name": "Metal048A_color.jpg",
+      "status": 304
+    },
+    {
+      "name": "Metal048A_normal.jpg",
+      "status": 304
+    },
+    {
+      "name": "Metal048A_roughness.jpg",
+      "status": 304
+    },
+    {
+      "name": "Marble006_color.jpg",
+      "status": 304
+    },
+    {
+      "name": "Marble006_normal.jpg",
+      "status": 304
+    },
+    {
+      "name": "Marble006_roughness.jpg",
+      "status": 304
+    },
+    {
+      "name": "Marble012_color.jpg",
+      "status": 304
+    },
+    {
+      "name": "Marble012_normal.jpg",
+      "status": 304
+    },
+    {
+      "name": "Marble012_roughness.jpg",
+      "status": 304
+    },
+    {
+      "name": "Travertine009_color.jpg",
+      "status": 304
+    },
+    {
+      "name": "Travertine009_normal.jpg",
+      "status": 304
+    },
+    {
+      "name": "Travertine009_roughness.jpg",
+      "status": 304
+    },
+    {
+      "name": "plastered_wall_04_color.jpg",
+      "status": 304
+    },
+    {
+      "name": "plastered_wall_04_normal.jpg",
+      "status": 304
+    },
+    {
+      "name": "plastered_wall_04_roughness.jpg",
+      "status": 304
+    },
+    {
+      "name": "sandstone_blocks_08_color.jpg",
+      "status": 304
+    },
+    {
+      "name": "sandstone_blocks_08_normal.jpg",
+      "status": 304
+    },
+    {
+      "name": "sandstone_blocks_08_roughness.jpg",
+      "status": 304
+    },
+    {
+      "name": "marble_01_color.jpg",
+      "status": 304
+    },
+    {
+      "name": "marble_01_normal.jpg",
+      "status": 304
+    },
+    {
+      "name": "marble_01_roughness.jpg",
+      "status": 304
+    }
+  ],
+  "quality": [
+    {
+      "quality": "eco",
+      "dpr": 1,
+      "calls": 48,
+      "triangles": 114391,
+      "memory": {
+        "geometries": 110,
+        "textures": 23
+      },
+      "camera": [
+        2.7750496468679004e-15,
+        3.1500000000000035,
+        -22.660000000000004
+      ],
+      "architectural_anisotropy": 2
+    },
+    {
+      "quality": "balanced",
+      "dpr": 1.5,
+      "calls": 48,
+      "triangles": 290307,
+      "memory": {
+        "geometries": 117,
+        "textures": 25
+      },
+      "camera": [
+        2.775049646867898e-15,
+        3.1500000000000035,
+        -22.660000000000004
+      ],
+      "architectural_anisotropy": 8
+    },
+    {
+      "quality": "high",
+      "dpr": 2,
+      "calls": 48,
+      "triangles": 290307,
+      "memory": {
+        "geometries": 124,
+        "textures": 26
+      },
+      "camera": [
+        2.7750496468678953e-15,
+        3.1500000000000035,
+        -22.660000000000004
+      ],
+      "architectural_anisotropy": 16
+    },
+    {
+      "quality": "balanced",
+      "dpr": 1.5,
+      "calls": 48,
+      "triangles": 290307,
+      "memory": {
+        "geometries": 124,
+        "textures": 26
+      },
+      "camera": [
+        2.7750496468678937e-15,
+        3.1500000000000035,
+        -22.660000000000004
+      ],
+      "architectural_anisotropy": 8
+    },
+    {
+      "quality": "eco",
+      "dpr": 1,
+      "calls": 48,
+      "triangles": 114391,
+      "memory": {
+        "geometries": 124,
+        "textures": 25
+      },
+      "camera": [
+        2.775049646867892e-15,
+        3.1500000000000035,
+        -22.660000000000004
+      ],
+      "architectural_anisotropy": 2
+    }
+  ],
+  "warm_circuit_memory": [
+    {
+      "geometries": 189,
+      "textures": 35
+    },
+    {
+      "geometries": 189,
+      "textures": 35
+    },
+    {
+      "geometries": 189,
+      "textures": 35
+    }
+  ],
+  "software_timing": {
+    "draw_ms": [
+      725.4000000059605,
+      766.2999999970198,
+      1.5,
+      1.4000000059604645,
+      2.1000000089406967,
+      1.7000000029802322,
+      2.2999999970197678,
+      1.9000000059604645,
+      3.5,
+      3.5,
+      21.19999998807907,
+      1.9000000059604645,
+      1.7000000029802322,
+      5.799999997019768,
+      1.7000000029802322,
+      1.5999999940395355,
+      5,
+      1.7999999970197678,
+      1.5,
+      1.7000000029802322,
+      1.4000000059604645,
+      1.4000000059604645,
+      1.5,
+      1.7000000029802322,
+      1.5,
+      1.5,
+      1.3999999910593033,
+      1.5,
+      2,
+      1.199999988079071,
+      1.0999999940395355,
+      4.4000000059604645,
+      1.0999999940395355,
+      0.8999999910593033,
+      1,
+      0.9000000059604645,
+      2.7999999970197678,
+      0.8999999910593033,
+      1,
+      0.9000000059604645,
+      1,
+      0.9000000059604645,
+      0.9000000059604645,
+      1,
+      1.0999999940395355,
+      0.8999999910593033,
+      1,
+      1.5,
+      1,
+      0.7999999970197678,
+      0.9000000059604645,
+      0.9000000059604645,
+      1,
+      1.0999999940395355,
+      0.9000000059604645,
+      1,
+      0.7999999970197678,
+      1.0999999940395355,
+      1,
+      0.9000000059604645,
+      0.7999999970197678,
+      0.7999999970197678,
+      1173.9000000059605
+    ],
+    "raf_intervals_ms": [
+      856.2239999940393,
+      733.3760000000002,
+      16.599999999998545,
+      1549.9000000000015,
+      783.2999999999993,
+      16.700000000000728,
+      16.700000000000728,
+      1616.5999999999985
+    ]
+  }
+}

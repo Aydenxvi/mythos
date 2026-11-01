@@ -1,6 +1,6 @@
 # MYTHOS_010 — visual quality and performance stabilization
 
-Initial version 1.2.0, revised to 1.2.1. Continued from the supplied MYTHOS_009 source; the museum, mythology content, tour, atlas, journal, timeline, audio controls and static deployment model are retained.
+Initial version 1.2.0, revised to 1.3.0. Continued from the supplied MYTHOS_009 source; the museum, mythology content, tour, atlas, journal, timeline, audio controls and static deployment model are retained.
 
 ## Concrete changes
 
@@ -85,3 +85,27 @@ Raw samples and corresponding browser screenshots are in `validation/revision-1.
 - Actual browser screenshots for all three galleries are stored alongside that report. This run uses software WebGL; the user's RTX 3050 / Edge frame rate remains unmeasured.
 
 The focused pointer/idle test also passed: 40/40 sampled gallery rays hit the 12-triangle proxy (median below the timer's resolution; first cold sample 0.7 ms), zero registered targets during inspection, zero draws across two consecutive quiet seconds after settling, and zero draws for 40 pointer moves without a button pressed. Raw data: `validation/revision-1.2.1/pointer-idle.json`. Reproduce with `python tests/performance_smoke.py` against the production preview server. This removes the measured continuous input cost; it does not establish FPS on the user's machine.
+
+## Revision 1.3.0 — complete architectural material pass
+
+The user requested more texture detail after 1.2.1. This revision extends detailed surfaces from the walls to the rest of the architecture.
+
+- Added four CC0 ambientCG material sets (12 maps): light veined marble, dark marble, travertine and brushed metal. Together with the existing wall materials there are seven sets / 21 local JPEG maps. All color maps are 2048px; normal and roughness maps are 1024px. The original downloaded pixels are preserved. See ASSET_CREDITS.md and public/textures/sources.json.
+- Floors, classical columns, door arches, plinths, cornices, relief panels and the central monument now use textured PBR finishes. Dark stone floor inlays and plinth bases add contrast. The dome and ceilings retain matte plaster; Egyptian column and relief finishes use warm-tinted travertine.
+- Replaced stretched UVs on key surfaces with physical texture density: box faces, column shafts, curved arches, circular floors and cylindrical plinth sides/caps. Material/texture/geometry caches share repeated resources.
+- Added fine 1.5-meter slab joints to the light marble floors as one batched mesh per floor. Curved stone inlays use planar UVs. No displacement tessellation or postprocessing pass was added.
+- Roughness maps are mapped into different matte/honed/polished ranges so the original polished-marble maps do not make columns and moldings look like glass. A shared shader program uses per-material range uniforms.
+- Architectural anisotropy follows ECO / BALANCED / HIGH caps of 2 / 8 / 16, within the GPU's limit. Source texture resolution remains detailed in all presets. Existing DPR and artwork tiers stay unchanged.
+- Combined twelve reed stems and three bands per Egyptian column into two meshes. The column's main cylindrical silhouettes use 48 sides instead of 16–20. This removes 13 draw calls per column while adding modest silhouette detail.
+- Slightly reduced the key light and increased the reflection environment intensity to retain stone detail and reveal the new metal finishes.
+
+The extra source maps add 19,425,457 bytes (19.4 MB decimal / 18.5 MiB) to the download. Their uncompressed GPU footprint is larger than their file size. The fixed-camera BALANCED Athena sample now submits 48 draw calls and 290,307 triangles, versus 47 / 290,247 in 1.2.1. Pointer picking remains absent during inspection; selecting a sculpture still uses a 12-triangle proxy. These are work counts, not a claim about RTX 3050 FPS.
+
+### Revision 1.3.0 validation
+
+- Eleven Node assertions passed: six navigation, two graphics/camera, and three UV density/caching tests. Eight GLBs and all 21 texture checksums passed. TypeScript, ESLint and the production build passed; ESLint retains four inherited Fast Refresh warnings and Vite retains its large-bundle warning.
+- The production browser regression passed all seven groups with no unhandled JavaScript or WebGL shader errors. All 21 local texture files loaded successfully. Architectural anisotropy was verified at 2 / 8 / 16 across quality switches.
+- Three repeated warm gallery circuits each reported 189 geometries and 35 textures, versus 240 / 27 in the earlier revision. This is a stable resource-count check for the exercised route, not a complete memory-leak proof.
+- Actual browser captures of the atrium, all three artworks, mobile layout and fallback are in `validation/revision-1.3.0/`. Raw quality/resource results are in `browser-results.json`. Chromium uses software WebGL here; native RTX 3050 / Edge FPS and physical-device audio remain unmeasured.
+
+The focused production pointer/idle check passed: all 40 gallery rays hit the cheap proxy, inspection had zero registered picking targets, the settled scene issued zero draws in two consecutive seconds, and 40 pointer moves without dragging issued zero additional draws. Raw results are in `validation/revision-1.3.0/pointer-idle.json`.

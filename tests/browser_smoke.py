@@ -20,6 +20,7 @@ with sync_playwright() as p:
     page = browser.new_page(viewport={'width':1280,'height':800}, device_scale_factor=2, reduced_motion='reduce')
     page.set_default_timeout(60000)
     page.on('pageerror', lambda e: REPORT['errors'].append(str(e)))
+    page.on('console', lambda m: REPORT['errors'].append(m.text) if m.type == 'error' and 'THREE.WebGLProgram' in m.text else None)
     page.on('response', lambda r: REPORT['models'].append({'name':r.url.rsplit('/',1)[-1],'status':r.status}) if '.glb' in r.url else None)
     page.on('response', lambda r: REPORT['textures'].append({'name':r.url.rsplit('/',1)[-1],'status':r.status}) if '/textures/' in r.url and '.jpg' in r.url else None)
     # Exercise the audio UI deterministically; actual device audio is a manual check.
@@ -95,6 +96,16 @@ with sync_playwright() as p:
         loaded()
         info = page.evaluate('window.mythosDiagnostics.snapshot()')
         assert info['dpr'] == {'eco':1,'balanced':1.5,'high':2}[quality], info
+        filtering = page.evaluate("""() => {
+          const d=window.mythosDiagnostics, samples=[];
+          d.scene.traverseVisible(o=>{
+            const materials=Array.isArray(o.material)?o.material:[o.material];
+            for(const m of materials) if(m?.map?.name==='Marble012_color') samples.push(m.map.anisotropy);
+          });
+          return {samples,max:d.renderer.capabilities.getMaxAnisotropy()};
+        }""")
+        assert filtering['samples'] and all(v == min({'eco':2,'balanced':8,'high':16}[quality],filtering['max']) for v in filtering['samples']), filtering
+        info['architectural_anisotropy'] = filtering['samples'][0]
         REPORT['quality'].append(info)
         if quality == 'high': page.screenshot(animations='disabled', path=str(OUT/'athena-high.png'))
     print('Quality switching passed', flush=True)
@@ -220,7 +231,7 @@ with sync_playwright() as p:
     assert any('placeholder' in w for w in warnings), warnings
     fallback.screenshot(animations='disabled', path=str(OUT/'missing-model.png'))
     REPORT['checks'].append('Missing GLB: boundary displays fallback and navigation remains usable')
-    assert len({t['name'] for t in REPORT['textures'] if t['status'] == 200}) == 9, REPORT['textures']
+    assert len({t['name'] for t in REPORT['textures'] if t['status'] == 200}) == 21, REPORT['textures']
     assert not REPORT['errors'], REPORT['errors']
     (OUT/'browser-results.json').write_text(json.dumps(REPORT, indent=2))
     print(json.dumps({k:v for k,v in REPORT.items() if k!='software_timing'}, indent=2), flush=True)

@@ -1,6 +1,8 @@
 # MYTHOS — The Eternal Museum
 
-**Version 1.2.1 · MYTHOS_010 · Complete interactive portfolio demo**
+**Version 1.3.0 · MYTHOS_010 · Complete interactive portfolio demo**
+
+[Preview the updated materials](validation/revision-1.3.0/atrium.png) · [Changes and verification](WHAT_IS_NEW_010.md)
 
 *A museum outside of time. The gods have faded. Their stories remain.*
 
@@ -45,7 +47,7 @@ Run `npm run build` before publishing. **Never open `index.html` directly from d
 ## Technical architecture
 
 - Vite, React 18, TypeScript strict mode, React Three Fiber / Three.js, Drei, GSAP.
-- Reusable museum architecture with local photographic wall materials: 2K color plus normal/roughness maps, consistent physical texture scale, merged static decoration and simplified pointer picking.
+- Seven local PBR material sets: plaster, block stone, veined light/dark marble, travertine and brushed metal. Physical texture scale on floors, columns, arches and plinths; matte/honed/polished finishes, batched slab joints and decorative geometry. See WHAT_IS_NEW_010.md for the 1.3.0 material revision.
 - Three local, optimized GLB artworks. ECO uses light variants; BALANCED uses detailed meshes and 2K maps; HIGH adds Athena’s original 4K texture. See WHAT_IS_NEW_010.md.
 - Lazy gallery code, isolated Suspense boundaries, on-demand canvas rendering, reduced-motion support, and manual quality control.
 - Typed exhibit data and state-machine-driven navigation without a backend or database.
@@ -71,7 +73,7 @@ No blanket license is granted over third-party artwork. The museum is an indepen
 
 ## Verification and honest limitations
 
-- Locally verifiable: navigation/graphics/UV tests, eight GLB integrity checks and nine wall-texture checksums, plus the browser regression described below.
+- Locally verifiable: navigation/graphics/UV tests, eight GLB integrity checks and 21 architectural texture checksums, plus the browser regression described below.
 - CI checks: frozen npm install, navigation, assets, TypeScript, lint and production Vite build; deploy only if successful.
 - MYTHOS_010 validation and its limits are documented in `WHAT_IS_NEW_010.md`. Optional browser regression: install Python Playwright separately and run `python tests/browser_smoke.py` against a running development server. It uses installed Chromium with software WebGL; set `CHROMIUM_PATH` if needed. Device audio and consumer-GPU frame rates still require hardware testing.
 - Performance and speech synthesis depend on the visitor's device and browser. Three featured exhibits are presented, not an exhaustive mythology encyclopedia.
@@ -86,7 +88,7 @@ No blanket license is granted over third-party artwork. The museum is an indepen
 
 DPR never exceeds the display's native ratio; anisotropy respects the GPU limit. MSAA stays enabled for all presets because changing a live WebGL context's antialias flag is unsupported. HIGH retains a practical 283,727-triangle Athena derivative rather than rendering all 746,662 master triangles.
 
-Walls use the same local 2K color and 1K normal/roughness maps in all three presets, with consistent texture density.
+All seven architectural material sets use local 2K color and 1K normal/roughness maps in every preset. Surface filtering follows the same 2 / 8 / 16 anisotropy caps as artwork. Decorative stone uses controlled roughness ranges so matte columns and polished floors respond differently to light. The extra material maps add 19.4 MB of source files; no extra postprocessing or rendering pass is used.
 
 Add `?diagnostics=1` to the served address to inspect `window.mythosDiagnostics.snapshot()` in the browser console (draw calls, triangles, resource counts and camera). No developer overlay is shown. This is opt-in and is not a performance guarantee.
 

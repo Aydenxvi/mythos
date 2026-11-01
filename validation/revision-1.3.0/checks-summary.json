@@ -1,0 +1,20 @@
+{
+  "version": "1.3.0",
+  "node": "24.19.0",
+  "unit_assertions_passed": 11,
+  "glb_checks_passed": 8,
+  "texture_sha256_checks_passed": 21,
+  "typecheck": "passed",
+  "lint_errors": 0,
+  "inherited_lint_warnings": 4,
+  "build": "passed; large main-bundle warning",
+  "browser_groups_passed": 7,
+  "browser_errors": [],
+  "warm_gpu_resources": {
+    "geometries": 189,
+    "textures": 35
+  },
+  "renderer": "Chromium 154 / SwiftShader on Linux",
+  "hardware_fps": "not measured",
+  "pointer_idle": "passed: 40/40 proxy ray hits, zero inspection picking targets, zero idle draws in two consecutive seconds, zero draws for 40 unpressed pointer moves"
+}

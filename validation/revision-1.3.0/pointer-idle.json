@@ -1,0 +1,81 @@
+{
+  "renderer": "Chromium / SwiftShader",
+  "viewport": [
+    1280,
+    800
+  ],
+  "dpr": 1,
+  "quality": "balanced",
+  "gallery_pick": {
+    "targets": [
+      "exhibit-hit-target"
+    ],
+    "ms": [
+      0.5999999940395355,
+      0,
+      0,
+      0.10000000894069672,
+      0,
+      0,
+      0.09999999403953552,
+      0,
+      0,
+      0.10000000894069672,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0.09999999403953552,
+      0,
+      0,
+      0,
+      0.10000000894069672,
+      0,
+      0,
+      0.09999999403953552,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0.09999999403953552,
+      0,
+      0,
+      0
+    ],
+    "hits": 40,
+    "x": 0,
+    "y": 0.2637206397457868
+  },
+  "inspection": {
+    "quality": "balanced",
+    "dpr": 1,
+    "calls": 48,
+    "triangles": 290307,
+    "memory": {
+      "geometries": 110,
+      "textures": 24
+    },
+    "camera": [
+      2.7750496468679012e-15,
+      3.1500000000000035,
+      -22.660000000000004
+    ]
+  },
+  "inspection_targets": 0,
+  "settling_draws_per_second": [
+    0,
+    0
+  ],
+  "idle_draws_in_one_second": 0,
+  "draws_for_40_unpressed_pointer_moves": 0
+}

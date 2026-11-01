@@ -1,17 +1,16 @@
 import { museumStone, darkBronze } from './museumMaterials'
+import { surfaceBox } from './surfaceGeometry'
 
 /** Original geometric sun-and-reed decoration. Not hieroglyphic writing or an archaeological copy. */
 export function EgyptianRelief({ wallZ }: { wallZ: number }) {
   const stone = museumStone('sandstone')
   return <group>
     {[-3.35, 3.35].map(x => <group key={x} position={[x, 2.82, wallZ]}>
-      <mesh material={stone} receiveShadow><boxGeometry args={[1.78, 3.9, 0.16]} /></mesh>
+      <mesh geometry={surfaceBox(1.78,3.9,0.16,2)} material={stone} receiveShadow />
       <mesh material={darkBronze} position={[0, 0, 0.091]}>
         <boxGeometry args={[1.57, 3.66, 0.015]} />
       </mesh>
-      <mesh material={stone} position={[0, 0, 0.112]}>
-        <boxGeometry args={[1.49, 3.58, 0.015]} />
-      </mesh>
+      <mesh geometry={surfaceBox(1.49,3.58,0.015,2)} material={stone} position={[0, 0, 0.112]} />
       <mesh material={darkBronze} position={[0, 1.02, 0.131]} rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[0.27, 0.027, 8, 36]} />
       </mesh>

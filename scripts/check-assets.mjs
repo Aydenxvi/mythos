@@ -31,7 +31,13 @@ for (const file of ['index.html', 'public/favicon.svg', 'public/credits.html', '
   assert.ok(existsSync(join(root, file)), `Missing public asset or documentation: ${file}`)
 }
 const textures = JSON.parse(readFileSync(join(root, 'public/textures/sources.json'), 'utf8'))
-assert.equal(textures.length, 9, 'Expected color, normal and roughness maps for three wall materials')
+assert.equal(textures.length, 21, 'Expected three maps for each of seven architectural material sets')
+assert.equal(new Set(textures.map(t => t.file)).size, textures.length, 'Duplicate texture filenames')
+for (const asset of new Set(textures.map(t => t.asset))) {
+  for (const channel of ['color', 'normal', 'roughness']) {
+    assert.ok(textures.some(t => t.file === `${asset}_${channel}.jpg`), `Missing ${channel} map for ${asset}`)
+  }
+}
 for (const texture of textures) {
   const buffer = readFileSync(join(root, 'public/textures', texture.file))
   assert.equal(buffer.length, texture.bytes, `Texture length mismatch: ${texture.file}`)

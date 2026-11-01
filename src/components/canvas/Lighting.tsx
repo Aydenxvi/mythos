@@ -6,6 +6,7 @@ import type { GraphicsQuality } from '../../hooks/useGraphicsQuality'
 import { useMuseumState } from '../../app/AppStateContext'
 import { ROOMS } from '../../data/world'
 import { GRAPHICS } from '../../graphics'
+import { setArchitecturalTextureFiltering } from '../architecture/photoTextures'
 
 /** Local reflection environment makes metallic GLTF materials readable. */
 function Reflections() {
@@ -15,7 +16,7 @@ function Reflections() {
     const room = new RoomEnvironment()
     const environment = generator.fromScene(room, 0.04, 0.1, 100)
     scene.environment = environment.texture
-    scene.environmentIntensity = 0.35
+    scene.environmentIntensity = 0.5
     room.dispose()
     generator.dispose()
     invalidate()
@@ -30,11 +31,16 @@ export function Lighting({ quality }: { quality: GraphicsQuality }) {
   const light = useRef<THREE.DirectionalLight>(null)
   const target = useRef(new THREE.Object3D())
   const invalidate = useThree(s => s.invalidate)
+  const gl = useThree(s => s.gl)
   const room = state.activeRoom ? ROOMS[state.activeRoom] : null
   const [x, , z] = room?.roomCamera.target ?? [0, 0, 0]
   const angle = room?.entranceAngle ?? 0
   const extent = room ? 10 : 19
   const size = GRAPHICS[quality].shadowSize || 512
+  useEffect(() => {
+    setArchitecturalTextureFiltering(Math.min(GRAPHICS[quality].anisotropy, gl.capabilities.getMaxAnisotropy()))
+    invalidate()
+  }, [quality, gl, invalidate])
   useEffect(() => {
     if (light.current) {
       light.current.shadow.map?.dispose()
@@ -56,7 +62,7 @@ export function Lighting({ quality }: { quality: GraphicsQuality }) {
     <ambientLight intensity={0.12} color="#ffffff" />
     <directionalLight ref={light} target={target.current}
       position={[x - 6 * Math.cos(angle) - 8 * Math.sin(angle), 13, z - 6 * Math.sin(angle) + 8 * Math.cos(angle)]}
-      intensity={2.5} color="#fff7ed" castShadow={quality !== 'eco'}
+      intensity={2.1} color="#fff7ed" castShadow={quality !== 'eco'}
       shadow-autoUpdate={false} shadow-mapSize-width={size} shadow-mapSize-height={size}
       shadow-radius={2} shadow-normalBias={0.025} shadow-bias={-0.0002}
       shadow-camera-near={0.5} shadow-camera-far={45}

@@ -19,12 +19,12 @@ export function Passage({civ,wallHeight=5.5}:PassageProps) {
     {[-1,1].map(side=><group key={side}>
       <mesh geometry={surfaceBox(0.40,wallHeight,length)} material={wall}
         position={[side*(WIDTH/2),wallHeight/2,0]} receiveShadow />
-      <mesh geometry={geometries.unitBox} material={ivory} scale={[0.20,0.40,length]}
+      <mesh geometry={surfaceBox(0.20,0.40,length,2)} material={ivory}
         position={[side*(WIDTH/2-0.24),0.28,0]} receiveShadow />
       <mesh geometry={geometries.unitBox} material={museumBronze} scale={[0.05,0.06,length]}
         position={[side*(WIDTH/2-0.25),0.57,0]} />
     </group>)}
-    <mesh geometry={geometries.unitBox} material={ivory} scale={[WIDTH+0.6,0.38,length]}
+    <mesh geometry={surfaceBox(WIDTH+0.6,0.38,length)} material={wallMaterial('ivory')}
       position={[0,wallHeight+0.19,0]} receiveShadow />
     {[-length/2+1.3,0,length/2-1.3].map(z=><mesh key={z} geometry={surfaceBox(WIDTH+0.55,0.45,0.46)}
       material={wall} position={[0,wallHeight-0.06,z]} receiveShadow />)}

@@ -6,8 +6,8 @@ import * as THREE from 'three'
 import { ExhibitPlaceholder } from './ExhibitPlaceholder'
 import { ExhibitModel } from './ExhibitModel'
 import { ModelErrorBoundary } from './ModelErrorBoundary'
-import { geometries } from '../architecture/geometryCache'
-import { museumStone, museumBronze } from '../architecture/museumMaterials'
+import { museumStone, museumBronze, darkMarble } from '../architecture/museumMaterials'
+import { surfaceCylinder } from '../architecture/surfaceGeometry'
 import type { ExhibitData } from '../../types/museum'
 import { useGraphicsQualityContext } from '../../hooks/GraphicsQualityContext'
 import { modelUrl } from '../../graphics'
@@ -41,7 +41,8 @@ export function Exhibit({ data, onSelect, interactive = true, plinthColor }: Exh
   const showModel = isCurrentRoom || keepModel
   const [hovered, setHovered] = useState(false)
   const groupRef = useRef<THREE.Group>(null)
-  const plinthMaterial = museumStone(data.civilization === 'egypt' ? 'sandstone' : 'ivory')
+  const plinthMaterial = data.civilization === 'egypt' ? museumStone('sandstone') : darkMarble
+  const capMaterial = museumStone(data.civilization === 'egypt' ? 'travertine' : 'ivory')
   void plinthColor
 
   useFrame((_, delta) => {
@@ -96,14 +97,13 @@ export function Exhibit({ data, onSelect, interactive = true, plinthColor }: Exh
   return (
     <group position={[data.position[0], 0, data.position[2]]}>
       <mesh
-        geometry={geometries.pedestal}
+        geometry={surfaceCylinder(0.89*0.87,0.96*0.87,plinthHeight,48)}
         material={plinthMaterial}
-        scale={[0.87, plinthHeight, 0.87]}
         position={[0, plinthHeight / 2, 0]}
         castShadow
         receiveShadow
       />
-      <mesh geometry={geometries.pedestalCap} material={plinthMaterial} position={[0,plinthHeight+0.055,0]} scale={[0.89,1,0.89]} receiveShadow castShadow />
+      <mesh geometry={surfaceCylinder(1.06*0.89,0.98*0.89,0.14,48)} material={capMaterial} position={[0,plinthHeight+0.055,0]} receiveShadow castShadow />
       <mesh position={[0,0.18,0.86]} material={museumBronze}>
         <boxGeometry args={[0.76,0.18,0.024]}/>
       </mesh>

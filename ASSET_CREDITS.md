@@ -65,3 +65,16 @@ Local photographic PBR textures by **Rob Tuytel**, distributed by **Poly Haven**
 [Poly Haven license](https://polyhaven.com/license) · [CC0 legal text](https://creativecommons.org/publicdomain/zero/1.0/). These are architectural decoration, not scans of the historical buildings described by the museum.
 
 Each set contains the original downloaded 2048px color JPEG and 1024px OpenGL normal / roughness JPEGs. Source pixels were not edited. Runtime changes: tint, normal strength, roughness multiplier and UV repetition at three meters per tile. All nine maps are bundled locally; no runtime CDN access is required. `public/textures/sources.json` records direct source URLs, authors, sizes and SHA-256 checksums.
+
+## MYTHOS revision 1.3.0 — detailed stone and metal finishes
+
+Four additional PBR material sets from **ambientCG**, released under **CC0 1.0**:
+
+- [Marble 012](https://ambientcg.com/a/Marble012): light veined marble on floors, columns, arches and plinth caps.
+- [Marble 006](https://ambientcg.com/a/Marble006): dark marble on floor inlays and plinth bases.
+- [Travertine 009](https://ambientcg.com/a/Travertine009): warm cut-stone trim, relief panels and Egyptian column finishes. The Egyptian column material is tinted travertine, an artistic sandstone-colored finish; it is not presented as an archaeological material scan.
+- [Metal 048A](https://ambientcg.com/a/Metal048A): gold-toned brushed metal, tinted into brighter and darker bronze finishes.
+
+[ambientCG licensing](https://docs.ambientcg.com/license/) · [CC0 legal text](https://creativecommons.org/publicdomain/zero/1.0/). These are sourced PBR materials; no claim is made that every set is photographic or a scan of a historical structure.
+
+The original color JPEGs from the 2K-JPG archives and OpenGL normal / roughness JPEGs from the 1K-JPG archives are preserved without pixel edits. Downloaded archive sizes and ZIP CRCs were checked. Exact source archive URLs, member filenames, sizes and local SHA-256 checksums are recorded in `public/textures/sources.json`. Runtime changes: tint, normal strength, roughness range, metallic response, anisotropic filtering and physical UV scale. Four sets share their 12 image resources across the museum. The earlier Poly Haven wall material credits remain applicable.

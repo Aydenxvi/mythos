@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import * as THREE from 'three'
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 import { museumBronze, museumStone } from './museumMaterials'
+import { wallMaterial } from './surfaceMaterials'
 
 export interface DomeProps {
   radius?: number
@@ -12,9 +13,14 @@ export interface DomeProps {
 
 /** Inward-facing coffered dome with an actual opening at its crown. */
 export function Dome({ radius = 11.5, baseHeight = 8.1, oculusAngle = 0.27 }: DomeProps) {
-  const shell = useMemo(() => new THREE.SphereGeometry(radius,96,36,0,Math.PI*2,oculusAngle,Math.PI/2-oculusAngle),[radius,oculusAngle])
-  const inner = useMemo(() => {const mat=museumStone('ivory').clone(); mat.side=THREE.BackSide;return mat},[])
-  const dark = useMemo(() => {const mat=museumStone('limestone').clone(); mat.side=THREE.BackSide; return mat},[])
+  const shell = useMemo(() => {
+    const geometry = new THREE.SphereGeometry(radius,96,36,0,Math.PI*2,oculusAngle,Math.PI/2-oculusAngle)
+    const uv = geometry.attributes.uv
+    for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * 2 * Math.PI * radius / 3, uv.getY(i) * Math.PI * radius / 3)
+    return geometry
+  },[radius,oculusAngle])
+  const inner = useMemo(() => {const mat=wallMaterial('ivory').clone(); mat.side=THREE.BackSide;return mat},[])
+  const dark = useMemo(() => {const mat=wallMaterial('limestone').clone(); mat.side=THREE.BackSide; return mat},[])
   const rings = [0.33,0.52,0.77,1.01,1.26]
   const cofferTiles = useMemo(() => {
     const tiles: THREE.BufferGeometry[] = []
@@ -24,7 +30,10 @@ export function Dome({ radius = 11.5, baseHeight = 8.1, oculusAngle = 0.27 }: Do
       for(let col=0;col<count;col++){
         const start=col*Math.PI*2/count+0.028
         const span=Math.PI*2/count-0.056
-        tiles.push(new THREE.SphereGeometry(radius-0.055,3,2,start,span,theta0+0.018,0.18))
+        const geometry = new THREE.SphereGeometry(radius-0.055,3,2,start,span,theta0+0.018,0.18)
+        const uv = geometry.attributes.uv
+        for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * 2 * Math.PI * radius / 3, uv.getY(i) * Math.PI * radius / 3)
+        tiles.push(geometry)
       }
     }
     const merged = mergeGeometries(tiles)
