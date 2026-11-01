@@ -89,3 +89,14 @@ DPR never exceeds the display's native ratio; anisotropy respects the GPU limit.
 Add `?diagnostics=1` to the served address to inspect `window.mythosDiagnostics.snapshot()` in the browser console (draw calls, triangles, resource counts and camera). No developer overlay is shown. This is opt-in and is not a performance guarantee.
 
 Generated GLBs are included; Python is not needed to run or build the site. To regenerate Athena/Anubis detail tiers from the separately supplied originals, install Pillow and run `python scripts/prepare_quality_tiers.py /path/to/newton_hall_walston_athena.glb /path/to/anubis_bust.glb`. Original files are not bundled.
+
+## Windows: “vite is not recognized”
+
+This usually means the local Windows command shim is missing or development dependencies were omitted. In the project directory (beside `package.json`), run:
+
+```bat
+npm ci --include=dev --bin-links
+npm run dev -- --open
+```
+
+The Windows launch/build scripts now check `node_modules/.bin/vite.cmd`, `tsc.cmd` and `eslint.cmd` before deciding that installation is complete. They repair missing commands using the frozen lockfile, including development dependencies and command links. No global Vite installation is needed.
