@@ -1,0 +1,23 @@
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ink);
+  opacity: 1;
+  transition: opacity 380ms ease;
+}
+
+.loading-screen.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-screen__mark {
+  font-family: var(--font-display);
+  letter-spacing: 0.3em;
+  font-size: 1rem;
+  color: var(--marble-dim);
+}

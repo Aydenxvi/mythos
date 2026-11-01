@@ -1,0 +1,10 @@
+.museum-header{position:fixed;top:clamp(18px,2.5vw,36px);left:clamp(20px,3vw,55px);z-index:var(--z-ui);display:flex;align-items:center;gap:17px;pointer-events:none;color:#352b20;text-shadow:0 1px 12px rgba(255,247,225,.4)}
+.museum-header__mark{font:400 25px/1 Georgia,serif;letter-spacing:.16em}
+.museum-header__divider{height:23px;width:1px;background:rgba(67,50,35,.32)}
+.museum-header__location{font:600 10px/1.4 var(--font-body);letter-spacing:.17em;text-transform:uppercase;color:#675c50}
+@media(max-width:600px){.museum-header{top:22px;left:20px;gap:10px}.museum-header__mark{font-size:19px}.museum-header__location{font-size:9px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+
+/* 004 — restrained cream-backed wordmark for contrast on all gallery walls */
+.museum-header{background:rgba(246,240,230,.84);padding:9px 14px 9px 16px;box-shadow:0 3px 22px rgba(42,33,23,.07);backdrop-filter:blur(8px);text-shadow:none;top:18px;left:25px}
+.museum-header__location{color:#5d4c3b}
+@media(max-width:600px){.museum-header{left:12px;top:12px;padding:8px 10px}}

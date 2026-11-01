@@ -1,0 +1,76 @@
+
+> mythos-eternal-museum@1.2.0 test
+> node --experimental-strip-types --test tests/*.test.mjs
+
+✔ each asset tier selects its actual resource, sharing URLs when detail is identical (0.67607ms)
+✔ rounded travel keeps endpoints and stays inside the corner safety envelope (0.667487ms)
+✔ the visitor starts at the welcome screen (0.846959ms)
+✔ entering once opens the atrium, repeated entries are no-ops (0.171879ms)
+✔ the visitor cannot bypass the welcome without entering (0.236127ms)
+✔ atrium → Greece → Athena → Greece → atrium (0.248114ms)
+✔ a room cannot select an unrelated exhibit while walking (0.127352ms)
+✔ direct transitions between civilizations keep the selected model cleared (0.121654ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 111.808442
+
+> mythos-eternal-museum@1.2.0 verify:assets
+> node scripts/check-assets.mjs
+
+✓ athena-walston-lite.glb (4.4 MB; 7 meshes)
+✓ athena-walston-optimized.glb (10.4 MB; 7 meshes)
+✓ zeus-lite.glb (3.0 MB; 4 meshes)
+✓ zeus-optimized.glb (6.3 MB; 4 meshes)
+✓ anubis-optimized.glb (3.8 MB; 2 meshes)
+✓ athena-balanced.glb (10.7 MB; 7 meshes)
+✓ athena-high.glb (13.2 MB; 7 meshes)
+✓ anubis-detail.glb (12.5 MB; 2 meshes)
+All public model files and release resources are valid.
+
+> mythos-eternal-museum@1.2.0 typecheck
+> tsc -b --noEmit
+
+
+> mythos-eternal-museum@1.2.0 lint
+> eslint .
+
+
+/workspace/mythos/src/app/AppStateContext.tsx
+  17:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/workspace/mythos/src/hooks/GraphicsQualityContext.tsx
+  8:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+/workspace/mythos/src/hooks/MotionPreference.tsx
+   7:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  26:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+✖ 4 problems (0 errors, 4 warnings)
+
+
+> mythos-eternal-museum@1.2.0 build
+> tsc -b && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 2231 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                         0.81 kB │ gzip:   0.45 kB
+dist/assets/index-CE23gVTb.css         34.77 kB │ gzip:   8.29 kB
+dist/assets/GreeceRoom-DbMHcO4v.js      0.55 kB │ gzip:   0.37 kB
+dist/assets/RomeRoom-znRgRZjN.js        0.76 kB │ gzip:   0.46 kB
+dist/assets/EgyptRoom-DeF_gtHh.js       0.82 kB │ gzip:   0.48 kB
+dist/assets/Exhibit-C7YIxKMk.js        16.23 kB │ gzip:   4.32 kB
+dist/assets/index-BBC1ngos.js       1,199.44 kB │ gzip: 345.07 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4.57s

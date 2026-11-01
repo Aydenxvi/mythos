@@ -1,0 +1,13 @@
+.transition-veil {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-veil);
+  background: var(--ink);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 420ms ease;
+}
+
+.transition-veil.is-visible {
+  opacity: 0.22;
+}

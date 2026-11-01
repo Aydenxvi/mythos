@@ -1,0 +1,11 @@
+.location-caption{position:fixed;z-index:var(--z-ui);left:clamp(22px,4vw,75px);bottom:clamp(90px,9vw,148px);width:min(310px,30vw);pointer-events:none;color:#382d22;text-shadow:0 1px 14px rgba(255,249,238,.32)}
+.location-caption__overline{display:flex;align-items:center;gap:11px;font:700 9px/1.4 var(--font-body);letter-spacing:.20em;color:#977448}.location-caption__overline span{display:block;width:24px;height:1px;background:#ac8b64}.location-caption h2{font:400 clamp(26px,3.5vw,47px)/1.11 Georgia,serif;margin:17px 0 12px}.location-caption p{font:400 13px/1.65 var(--font-body);color:#66594b;margin:0 0 24px;max-width:300px}.location-caption__hint{font:700 9px/1.6 var(--font-body);letter-spacing:.15em;color:#856b4d}.location-caption__hint span{margin-left:5px;font-size:15px;vertical-align:middle}
+@media(max-width:1000px){.location-caption{bottom:95px;width:240px}.location-caption h2{font-size:30px}.location-caption p{font-size:12px}}
+@media(max-width:650px){.location-caption{left:20px;bottom:79px;width:calc(100% - 40px)}.location-caption h2{font-size:24px;margin:8px 0}.location-caption__overline{font-size:8px}.location-caption p{display:none}.location-caption__hint{font-size:8px}}
+
+/* 004 — text remains legible on pale marble and under variable sunlight */
+.location-caption{padding:19px 23px 22px 21px;border-left:2px solid rgba(142,109,65,.8);background:linear-gradient(90deg,rgba(244,239,229,.92),rgba(244,239,229,.70));box-shadow:0 12px 50px rgba(44,37,29,.10);backdrop-filter:blur(8px);width:min(345px,32vw);text-shadow:none}
+.location-caption h2{color:#332b22;margin:10px 0}
+.location-caption p{color:#4c4135;margin-bottom:12px;font-size:13px}
+.location-caption__hint{color:#72512f}
+@media(max-width:650px){.location-caption{width:calc(100% - 40px);max-width:390px;padding:12px 16px}.location-caption h2{font-size:22px}}

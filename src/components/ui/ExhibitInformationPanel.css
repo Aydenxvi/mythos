@@ -1,0 +1,43 @@
+.exhibit-panel{position:fixed;right:clamp(18px,4vw,76px);top:50%;transform:translateY(-50%);z-index:var(--z-ui);pointer-events:auto;width:min(390px,35vw);max-height:min(660px,calc(100dvh - 135px));display:flex;flex-direction:column;background:#f0e9dc;color:#302820;border:1px solid #d9c9b3;box-shadow:0 25px 95px rgba(37,27,14,.19);animation:exhibit-enter .35s ease both}
+.exhibit-panel__top{display:flex;justify-content:space-between;align-items:center;padding:15px 25px;border-bottom:1px solid #dacbb9;font:700 9px var(--font-body);letter-spacing:.19em;color:#9c805a;flex-shrink:0}
+.exhibit-panel__top button{border:1px solid transparent;display:grid;place-items:center;color:#7d674a;background:transparent;padding:5px;cursor:pointer}.exhibit-panel__top button:hover{border-color:#bca686}.exhibit-panel__top button.is-saved{color:#a47840}
+.exhibit-panel__scroll{padding:25px 25px 18px;overflow-y:auto;min-height:0;scrollbar-width:thin;scrollbar-color:#cdbb9e transparent}
+.exhibit-panel__civilization{margin:0 0 10px;font:700 10px var(--font-body);letter-spacing:.18em;text-transform:uppercase;color:#9b7c52}
+.exhibit-panel__title{font:400 clamp(39px,4vw,58px)/1.06 Georgia,serif;margin:0 0 7px;letter-spacing:-.045em;color:#31291f}
+.exhibit-panel__epithet{font:italic 16px Georgia,serif;color:#9a7c56;margin:0 0 24px}
+.exhibit-panel__tabs{display:flex;gap:17px;border-bottom:1px solid #d7c6b1;margin-bottom:19px}.exhibit-panel__tabs button{appearance:none;border:0;border-bottom:2px solid transparent;background:none;color:#8a7761;font:600 10px var(--font-body);letter-spacing:.065em;padding:0 0 12px;cursor:pointer}.exhibit-panel__tabs button.is-active{border-bottom-color:#856338;color:#31271b}.exhibit-panel__tabs button:hover{color:#4c3b28}
+.exhibit-panel__content{animation:panel-page .2s ease}.exhibit-panel__content p{font:12px/1.8 var(--font-body);color:#6b5d4d;margin:0 0 14px}.exhibit-panel__content .exhibit-panel__lead{font:14px/1.7 Georgia,serif;color:#544537}.exhibit-panel__kicker{font:700 9px var(--font-body)!important;letter-spacing:.18em;color:#a0815a!important;margin-top:20px!important}.exhibit-panel__symbols{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px}.exhibit-panel__symbols span{font:10px var(--font-body);border:1px solid #cbb99e;padding:8px 10px;color:#725c42}.exhibit-panel__annotation{display:flex;gap:9px;align-items:center;color:#99836a!important;font:11px var(--font-body)!important;margin-top:23px!important}.exhibit-panel__meta{display:grid;grid-template-columns:78px 1fr;gap:10px;margin:0 0 16px;font:11px/1.6 var(--font-body)}.exhibit-panel__meta dt{text-transform:uppercase;font:700 9px var(--font-body);letter-spacing:.1em;color:#9c8363}.exhibit-panel__meta dd{margin:0;color:#695c4b}.exhibit-panel__note{font:italic 11px/1.7 Georgia,serif!important;color:#96836a!important}.exhibit-panel__connection strong{font-weight:650;color:#4b392b}
+.exhibit-panel__footer{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px 25px;border-top:1px solid #dacbb9;flex-shrink:0}.exhibit-panel__footer button{display:flex;align-items:center;gap:10px;border:0;color:#634b30;background:none;cursor:pointer;font:700 10px var(--font-body);letter-spacing:.07em;padding:7px 0}.exhibit-panel__footer button:hover{color:#20170f}.exhibit-panel__footer button:disabled{opacity:.5;cursor:default}.exhibit-panel__footer button.is-speaking{color:#966739}.exhibit-panel__guide-note{font:700 8px var(--font-body);letter-spacing:.1em;color:#a38f75}
+@keyframes exhibit-enter{from{opacity:0;transform:translate(13px,-50%)}to{opacity:1;transform:translate(0,-50%)}}@keyframes panel-page{from{opacity:.3;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:850px){.exhibit-panel{right:20px;width:min(330px,40vw)}.exhibit-panel__scroll{padding:19px}.exhibit-panel__top,.exhibit-panel__footer{padding:12px 19px}}
+@media(max-width:650px){.exhibit-panel{top:auto;bottom:0;right:0;left:0;transform:none;width:100%;max-height:min(58dvh,520px);animation:exhibit-enter-mobile .3s ease}.exhibit-panel__top{padding:10px 22px}.exhibit-panel__scroll{padding:13px 22px 10px}.exhibit-panel__title{font-size:37px}.exhibit-panel__epithet{margin-bottom:15px}.exhibit-panel__tabs{margin-bottom:13px}.exhibit-panel__lead{font-size:12px!important}.exhibit-panel__footer{padding:8px 22px}.exhibit-panel__guide-note{font-size:7px}}
+@keyframes exhibit-enter-mobile{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.exhibit-panel,.exhibit-panel__content{animation:none}}
+
+/* 004 — compact museum reader and immersive artwork mode */
+.exhibit-panel{width:min(360px,33vw);max-height:min(640px,calc(100dvh - 142px));background:#f1eadf;box-shadow:0 18px 65px rgba(40,31,19,.16)}
+.exhibit-panel__actions{display:flex;align-items:center;gap:9px}
+.exhibit-panel__scroll{padding:21px 23px 14px}
+.exhibit-panel__top,.exhibit-panel__footer{padding-left:23px;padding-right:23px}
+.exhibit-panel__title{font-size:clamp(37px,3vw,52px)}
+.exhibit-panel__epithet{margin-bottom:17px}
+.exhibit-panel__content p{font-size:12px;line-height:1.74}
+.exhibit-panel__focus-link{margin-left:auto!important;display:flex;gap:7px!important;align-items:center;letter-spacing:.01em!important;text-transform:none;font-size:10px!important}
+.exhibit-panel__guide-note{display:none}
+.exhibit-panel__restore{position:fixed;z-index:var(--z-ui);right:clamp(18px,3vw,55px);bottom:clamp(90px,8vw,130px);display:flex;align-items:center;gap:11px;padding:14px 20px;border:1px solid #ae987a;background:#f1e6d3;color:#473a2c;cursor:pointer;font:700 10px var(--font-body);letter-spacing:.09em;box-shadow:0 10px 42px rgba(27,22,14,.16);transition:background .2s,transform .2s}
+.exhibit-panel__restore:hover{background:#fff5e7;transform:translateY(-2px)}
+@media(max-width:850px){.exhibit-panel{width:min(340px,44vw)}}
+@media(max-width:650px){.exhibit-panel{width:100%;max-height:min(55dvh,500px)}.exhibit-panel__title{font-size:38px}.exhibit-panel__restore{right:15px;bottom:86px}}
+
+/* Credits are always available under Details, next to historical context. */
+.exhibit-panel__credit { margin-top: 1.25rem; padding-top: 0.8rem; border-top: 1px solid rgba(108,80,52,0.2); }
+.exhibit-panel__credit p { margin-bottom: 0.55rem; }
+.exhibit-panel__credit a { color: #76542c; font-weight: 600; text-underline-offset: 3px; }
+.exhibit-panel__credit a:hover { color: #30271f; }
+
+/* 007 — interpretable iconography, not inert decorative tags. */
+.exhibit-panel__symbols button{font:10px var(--font-body);border:1px solid #cbb99e;background:transparent;padding:8px 10px;color:#725c42;cursor:pointer;transition:background .2s,border-color .2s}
+.exhibit-panel__symbols button:hover,.exhibit-panel__symbols button.is-selected{background:#e1d2bd;border-color:#977b53;color:#332617}
+.exhibit-panel__symbol-meaning{padding:12px 13px;background:#e6dacc;border-left:2px solid #977950;margin-top:-9px!important;font-size:11px!important}
+.exhibit-panel__symbol-meaning strong{color:#674d30}
+@media(prefers-reduced-motion:reduce){.exhibit-panel__symbols button{transition:none}}

@@ -1,0 +1,224 @@
+{
+  "renderer": "Chromium / SwiftShader (software)",
+  "checks": [
+    "Athena: quality budgets, tabs, symbol, journal, audio control, orbit/zoom, Escape",
+    "Three-stop tour, cross-room navigation, atlas/timeline, persisted journal",
+    "Repeated warmed room circuit has stable GPU resource counts",
+    "Cinematic route completes; INSTANT finishes active travel",
+    "390px mobile: separate artwork viewport, no horizontal overflow, reduced motion",
+    "Missing GLB: boundary displays fallback and navigation remains usable"
+  ],
+  "errors": [],
+  "models": [
+    {
+      "name": "athena-walston-lite.glb",
+      "status": 200
+    },
+    {
+      "name": "athena-balanced.glb",
+      "status": 200
+    },
+    {
+      "name": "athena-high.glb",
+      "status": 200
+    },
+    {
+      "name": "zeus-lite.glb",
+      "status": 200
+    },
+    {
+      "name": "zeus-optimized.glb",
+      "status": 200
+    },
+    {
+      "name": "anubis-detail.glb",
+      "status": 200
+    },
+    {
+      "name": "athena-high.glb",
+      "status": 200
+    },
+    {
+      "name": "anubis-detail.glb",
+      "status": 200
+    },
+    {
+      "name": "zeus-optimized.glb",
+      "status": 200
+    },
+    {
+      "name": "athena-walston-lite.glb",
+      "status": 200
+    },
+    {
+      "name": "anubis-optimized.glb",
+      "status": 200
+    }
+  ],
+  "quality": [
+    {
+      "quality": "eco",
+      "dpr": 1,
+      "calls": 121,
+      "triangles": 120839,
+      "memory": {
+        "geometries": 269,
+        "textures": 9
+      },
+      "camera": [
+        2.7750496468679012e-15,
+        3.1500000000000035,
+        -22.660000000000004
+      ]
+    },
+    {
+      "quality": "balanced",
+      "dpr": 1.5,
+      "calls": 121,
+      "triangles": 296755,
+      "memory": {
+        "geometries": 276,
+        "textures": 11
+      },
+      "camera": [
+        2.775049646867899e-15,
+        3.1500000000000035,
+        -22.660000000000004
+      ]
+    },
+    {
+      "quality": "high",
+      "dpr": 2,
+      "calls": 121,
+      "triangles": 296755,
+      "memory": {
+        "geometries": 283,
+        "textures": 12
+      },
+      "camera": [
+        2.775049646867897e-15,
+        3.1500000000000035,
+        -22.660000000000004
+      ]
+    },
+    {
+      "quality": "balanced",
+      "dpr": 1.5,
+      "calls": 121,
+      "triangles": 296755,
+      "memory": {
+        "geometries": 283,
+        "textures": 12
+      },
+      "camera": [
+        2.7750496468678953e-15,
+        3.1500000000000035,
+        -22.660000000000004
+      ]
+    },
+    {
+      "quality": "eco",
+      "dpr": 1,
+      "calls": 121,
+      "triangles": 120839,
+      "memory": {
+        "geometries": 283,
+        "textures": 11
+      },
+      "camera": [
+        2.775049646867894e-15,
+        3.1500000000000035,
+        -22.660000000000004
+      ]
+    }
+  ],
+  "warm_circuit_memory": [
+    {
+      "geometries": 407,
+      "textures": 18
+    },
+    {
+      "geometries": 407,
+      "textures": 18
+    },
+    {
+      "geometries": 407,
+      "textures": 18
+    }
+  ],
+  "software_timing": {
+    "draw_ms": [
+      331.39999999990687,
+      597.5,
+      2.199999999953434,
+      1.7999999998137355,
+      7.2999999998137355,
+      2.0999999998603016,
+      2,
+      3.0999999998603016,
+      2.800000000046566,
+      3.699999999953434,
+      6.699999999953434,
+      4.400000000139698,
+      4.199999999953434,
+      1.8000000000465661,
+      1.8999999999068677,
+      7.5,
+      3.8999999999068677,
+      4.2000000001862645,
+      18.0999999998603,
+      2,
+      2.0999999998603016,
+      2.0999999998603016,
+      2,
+      1.8000000000465661,
+      1.5,
+      2.2999999998137355,
+      17.699999999953434,
+      1.6000000000931323,
+      4.2000000001862645,
+      1.5,
+      2.800000000046566,
+      1.3000000000465661,
+      1.3000000000465661,
+      1.2999999998137355,
+      1.3999999999068677,
+      1.4000000001396984,
+      1.3000000000465661,
+      1.1999999999534339,
+      1.3000000000465661,
+      2.300000000046566,
+      1.1999999999534339,
+      1.2999999998137355,
+      1.3000000000465661,
+      1.3999999999068677,
+      1.1999999999534339,
+      2.5,
+      4.300000000046566,
+      1.1999999999534339,
+      1.2999999998137355,
+      1.1999999999534339,
+      1.4000000001396984,
+      1.8999999999068677,
+      1.1999999999534339,
+      1.2000000001862645,
+      3.699999999953434,
+      2,
+      1.4000000001396984,
+      1.1000000000931323
+    ],
+    "raf_intervals_ms": [
+      695.9619999999995,
+      333.33799999999974,
+      16.600000000002183,
+      633.2999999999993,
+      616.7000000000007,
+      16.69999999999709,
+      16.600000000002183,
+      16.700000000000728,
+      2483.199999999997,
+      83.30000000000291,
+      316.6999999999971
+    ]
+  }
+}

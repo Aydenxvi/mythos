@@ -1,0 +1,56 @@
+[
+  {
+    "exhibit": "Athena",
+    "render": {
+      "quality": "high",
+      "dpr": 1,
+      "calls": 121,
+      "triangles": 296755,
+      "memory": {
+        "geometries": 269,
+        "textures": 10
+      },
+      "camera": [
+        2.7750496468679004e-15,
+        3.1500000000000035,
+        -22.660000000000004
+      ]
+    }
+  },
+  {
+    "exhibit": "Jupiter",
+    "render": {
+      "quality": "high",
+      "dpr": 1,
+      "calls": 62,
+      "triangles": 172686,
+      "memory": {
+        "geometries": 288,
+        "textures": 12
+      },
+      "camera": [
+        -17.319693712997946,
+        3.2,
+        -14.611769560458432
+      ]
+    }
+  },
+  {
+    "exhibit": "Anubis",
+    "render": {
+      "quality": "high",
+      "dpr": 1,
+      "calls": 114,
+      "triangles": 14578,
+      "memory": {
+        "geometries": 407,
+        "textures": 18
+      },
+      "camera": [
+        17.319693712997946,
+        3.250000000000001,
+        -14.611769560458432
+      ]
+    }
+  }
+]

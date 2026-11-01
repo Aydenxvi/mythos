@@ -1,0 +1,88 @@
+.museum-app {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.museum-app canvas {
+  display: block;
+  touch-action: none;
+}
+/* Discreet library controls, separate from navigation and the exhibit viewer. */
+.museum-tools{position:fixed;z-index:var(--z-ui);top:24px;right:32px;display:flex;align-items:center;gap:8px}
+.museum-tools--with-back{top:84px}
+.museum-tools button{display:flex;align-items:center;gap:9px;padding:11px 13px;background:rgba(248,239,222,.91);color:#48392b;border:1px solid rgba(136,105,69,.32);cursor:pointer;box-shadow:0 4px 24px rgba(0,0,0,.045);backdrop-filter:blur(12px);font:700 9px var(--font-body);letter-spacing:.14em;transition:background .2s,color .2s,transform .2s}
+.museum-tools button:hover:not(:disabled){background:#e8d7bc;transform:translateY(-1px)}.museum-tools button:disabled{opacity:.5;cursor:wait}.museum-tools button small{font-size:10px;color:#9b7a51;letter-spacing:0}
+@media(max-width:700px){.museum-tools{top:75px;right:17px;gap:5px}.museum-tools--with-back{top:74px}.museum-tools button{padding:9px 10px;font-size:8px}.museum-tools button span{display:none}}
+
+/* 006 — an optional quality switch, deliberately below the gallery UI. */
+.graphics-quality{position:fixed;z-index:var(--z-ui);left:20px;bottom:20px;display:flex;gap:8px;align-items:center;max-width:220px;background:rgba(246,239,228,.94);color:#493c2c;border:1px solid rgba(143,114,75,.32);box-shadow:0 8px 25px rgba(30,23,12,.12);padding:9px 11px;backdrop-filter:blur(12px)}
+.graphics-quality label{font:700 9px var(--font-body);letter-spacing:.12em}
+.graphics-quality select{min-width:0;max-width:115px;border:0;outline-offset:2px;color:#4d3c2b;background:transparent;font:700 9px var(--font-body);cursor:pointer}
+@media(max-width:700px){.graphics-quality{bottom:82px;left:12px;padding:7px 9px;gap:6px}.graphics-quality label{display:none}.graphics-quality select{max-width:115px}}
+
+/* 007 — offer the guided route beside the archive without adding a bulky toolbar. */
+.museum-tools button[aria-pressed="true"]{background:#e1d1b9;border-color:#a78c67;color:#443020}
+@media(max-width:700px){.museum-tools button{min-width:38px;min-height:38px;justify-content:center}}
+
+/* 008 — final portfolio presentation, low-compositor-cost controls. */
+.museum-tools button,.graphics-quality,.location-caption,.museum-header,.civ-nav,.back-button,.guided-tour{backdrop-filter:none!important}
+.experience-settings{position:fixed;z-index:var(--z-ui);left:18px;bottom:17px;display:flex;align-items:center;gap:8px}
+.experience-settings .graphics-quality,.experience-settings .motion-setting{position:static;display:flex;align-items:center;gap:7px;max-width:none;min-height:38px;padding:9px 11px;border:1px solid rgba(143,114,75,.32);background:rgba(246,239,228,.96);color:#493c2c;box-shadow:0 5px 20px rgba(30,23,12,.08)}
+.experience-settings label{font:700 9px var(--font-body);letter-spacing:.1em}
+.experience-settings select{min-width:0;max-width:128px;border:0;background:transparent;color:#483a2d;font:700 9px var(--font-body);cursor:pointer}
+.experience-settings select:focus-visible{outline:2px solid #87673f;outline-offset:3px}
+.museum-help{position:fixed;z-index:var(--z-ui);bottom:24px;right:24px;width:40px;height:40px;display:grid;place-items:center;background:#f1eadf;color:#493b2d;border:1px solid #cbbba5;cursor:pointer;box-shadow:0 7px 24px rgba(42,30,18,.14);transition:background .2s}
+.museum-help:hover{background:#e1cfb7}
+.help-scrim{position:fixed;inset:0;z-index:65;background:rgba(26,21,16,.73);display:grid;place-items:center;padding:22px}
+.help-dialog{position:relative;width:min(490px,100%);max-height:calc(100dvh - 44px);overflow:auto;background:#f2ecdf;color:#30291f;border:1px solid #bba990;box-shadow:0 30px 110px #08060365;padding:clamp(25px,4vw,42px)}
+.help-dialog__close{position:absolute;top:17px;right:17px;border:0;background:transparent;color:#58452e;cursor:pointer;padding:8px}
+.help-dialog__eyebrow{margin:0 0 14px;font:700 10px var(--font-body);letter-spacing:.19em;color:#92724d}
+.help-dialog h2{font:400 42px/1.1 var(--font-display);margin:0 0 20px;letter-spacing:-.025em}
+.help-dialog p{font:14px/1.7 var(--font-body);color:#5d5145}
+.help-dialog dl{display:grid;grid-template-columns:155px 1fr;gap:13px 12px;border-top:1px solid #cfbeaa;border-bottom:1px solid #cfbeaa;padding:23px 0;margin:25px 0}
+.help-dialog dt{font:700 11px/1.5 var(--font-body);color:#6b5030}
+.help-dialog dd{font:12px/1.5 var(--font-body);margin:0;color:#66584b}
+.help-dialog__action{background:#352b21;color:#f6eee0;border:1px solid #352b21;padding:14px 18px;cursor:pointer;font:700 10px var(--font-body);letter-spacing:.13em;width:100%}
+.webgl-fallback{position:fixed;inset:0;display:grid;place-content:center;text-align:center;padding:24px;background:#27231f;color:#f0e6d4;z-index:2}
+.webgl-fallback h2{font:400 36px var(--font-display)}
+.webgl-fallback p{max-width:490px;line-height:1.7}
+.webgl-fallback button{margin:18px auto;padding:14px 28px;color:#33291f;background:#f0e5d4;border:0;cursor:pointer}
+@media(max-width:760px){
+  .experience-settings{left:10px;bottom:73px;gap:5px}
+  .experience-settings .graphics-quality,.experience-settings .motion-setting{padding:7px;gap:4px;min-height:33px}
+  .experience-settings label{display:none}
+  .experience-settings select{max-width:95px;font-size:8px}
+  .experience-settings svg{width:13px}
+  .museum-help{bottom:77px;right:12px;width:34px;height:34px}
+  .help-dialog{padding:24px}
+  .help-dialog h2{font-size:32px}
+  .help-dialog dl{grid-template-columns:1fr;gap:5px}
+  .help-dialog dd{margin-bottom:8px}
+}
+@media(prefers-reduced-motion:reduce){.museum-help{transition:none}}
+
+.startup-error{position:fixed;inset:0;z-index:85;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:28px;text-align:center;color:#f2e9d8;background:#27221ddf}
+.startup-error h2{font:400 32px/1.2 var(--font-display);margin:0 0 10px}
+.startup-error p{max-width:500px;font:14px/1.7 var(--font-body);color:#d2c4b0}
+.startup-error button{background:#eee1cc;color:#30251b;border:0;padding:14px 20px;cursor:pointer;font:700 10px var(--font-body);letter-spacing:.14em;margin-top:10px}
+
+/* 009 — release: visible artist attribution and keyboard discoverability. */
+.help-dialog__credits{margin:-7px 0 20px!important;font-size:12px!important}
+.help-dialog__credits a{color:#78562d;text-underline-offset:4px}
+.help-dialog__credits a:focus-visible,.museum-help:focus-visible{outline:2px solid #88673f;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important}}
+
+/* Keep the artwork viewport separate from the reader, including narrow screens. */
+.museum-viewport{position:absolute;inset:0}
+@media(min-width:651px){
+  .museum-app:has(.exhibit-panel) .museum-viewport{right:calc(min(360px,33vw) + 4vw + 12px)}
+}
+@media(max-width:650px){
+  .museum-app:has(.exhibit-panel) .museum-viewport{top:64px;height:calc(52dvh - 108px);bottom:auto}
+  .museum-app .exhibit-panel{max-height:48dvh}
+  .museum-app:has(.exhibit-panel) .experience-settings{bottom:calc(48dvh + 8px)}
+  .museum-app:has(.exhibit-panel) .museum-help{bottom:calc(48dvh + 8px)}
+}

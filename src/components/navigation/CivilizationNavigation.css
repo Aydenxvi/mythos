@@ -1,0 +1,4 @@
+.civ-nav{position:fixed;z-index:var(--z-ui);left:50%;bottom:clamp(20px,3vw,46px);transform:translateX(-50%);display:flex;align-items:center;gap:2px;padding:6px;background:rgba(39,35,29,.88);border:1px solid rgba(230,209,178,.32);box-shadow:0 15px 35px rgba(23,19,13,.23);backdrop-filter:blur(18px);pointer-events:auto}
+.civ-nav__item{appearance:none;background:transparent;border:0;cursor:pointer;color:rgba(246,232,206,.75);padding:15px 20px;font:600 10px/1 var(--font-body);letter-spacing:.19em;text-transform:uppercase;transition:background .24s,color .24s}
+.civ-nav__item:hover:not(:disabled){background:rgba(238,219,182,.10);color:#fff2db}.civ-nav__item.is-active{color:#e5c594;background:rgba(230,200,154,.12)}.civ-nav__item:disabled{cursor:default}
+@media(max-width:600px){.civ-nav{bottom:14px;width:calc(100% - 28px);justify-content:space-around;padding:5px}.civ-nav__item{padding:13px 10px;font-size:9px;letter-spacing:.09em}}
