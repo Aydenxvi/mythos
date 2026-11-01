@@ -91,6 +91,7 @@ export function Exhibit({ data, onSelect, interactive = true, plinthColor }: Exh
   }, [])
 
   const plinthHeight = 1.05
+  const hitHeight = (data.asset?.targetHeight ?? 3.2) * (data.scale ?? 1)
 
   return (
     <group position={[data.position[0], 0, data.position[2]]}>
@@ -110,9 +111,6 @@ export function Exhibit({ data, onSelect, interactive = true, plinthColor }: Exh
         ref={groupRef}
         position={[0, plinthHeight, 0]}
         rotation={data.rotation ?? [0, 0, 0]}
-        onClick={handleClick}
-        onPointerOver={handlePointerOver}
-        onPointerOut={handlePointerOut}
       >
         {data.asset && showModel ? (
           <ModelErrorBoundary key={modelUrl(data.asset, quality)} fallback={<ExhibitPlaceholder kind={data.placeholder} hovered={hovered && interactive} />}>
@@ -124,6 +122,14 @@ export function Exhibit({ data, onSelect, interactive = true, plinthColor }: Exh
           <ExhibitPlaceholder kind={data.placeholder} hovered={hovered && interactive} />
         )}
       </group>
+      {/* Pick a cheap proxy, never hundreds of thousands of scan triangles.
+          In inspection mode OrbitControls owns the pointer; no picking is needed. */}
+      {interactive && <mesh name="exhibit-hit-target"
+        position={[0, plinthHeight + hitHeight / 2, 0]}
+        onClick={handleClick} onPointerOver={handlePointerOver} onPointerOut={handlePointerOut}>
+        <boxGeometry args={[1.9, hitHeight, 1.6]} />
+        <meshBasicMaterial visible={false} />
+      </mesh>}
     </group>
   )
 }

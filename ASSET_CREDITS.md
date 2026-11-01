@@ -53,3 +53,15 @@ Two additional lighter variants have been generated from the already credited CC
 - Zeus: BALANCED/HIGH use the supplied 161,234-triangle / 2048px web derivative; ECO uses the 68,741-triangle / 1024px variant. The separately attached Zeus original exceeded the environment's 32 MiB transfer limit, so no detail beyond the archive's source pixels is claimed.
 
 All original author/source/license attribution above remains applicable. Runtime reflection lighting, texture filtering and display transforms were adjusted. No ownership or historical-authenticity claims have changed.
+
+## MYTHOS_010 revision 1.2.1 — architectural surfaces
+
+Local photographic PBR textures by **Rob Tuytel**, distributed by **Poly Haven** under **CC0 1.0**:
+
+- [Marble 01](https://polyhaven.com/a/marble_01): Roman gallery walls.
+- [Sandstone Blocks 08](https://polyhaven.com/a/sandstone_blocks_08): Egyptian walls and passage.
+- [Plastered Wall 04](https://polyhaven.com/a/plastered_wall_04): Greek gallery, atrium and classical passages.
+
+[Poly Haven license](https://polyhaven.com/license) · [CC0 legal text](https://creativecommons.org/publicdomain/zero/1.0/). These are architectural decoration, not scans of the historical buildings described by the museum.
+
+Each set contains the original downloaded 2048px color JPEG and 1024px OpenGL normal / roughness JPEGs. Source pixels were not edited. Runtime changes: tint, normal strength, roughness multiplier and UV repetition at three meters per tile. All nine maps are bundled locally; no runtime CDN access is required. `public/textures/sources.json` records direct source URLs, authors, sizes and SHA-256 checksums.

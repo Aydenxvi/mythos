@@ -1,5 +1,7 @@
 import { useMemo } from 'react'
 import * as THREE from 'three'
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
+import { wallMaterial } from './surfaceMaterials'
 import { Column } from './Column'
 import { geometries } from './geometryCache'
 import { museumStone, museumBronze, darkBronze } from './museumMaterials'
@@ -12,7 +14,7 @@ const blocked = (angle: number) => Math.abs(difference(angle, Math.PI)) < 0.35 |
 
 /** Real inner wall segments, omitted at each archway, with restrained stone mouldings. */
 export function RotundaWalls() {
-  const wall = museumStone('limestone')
+  const wall = wallMaterial('limestone')
   const ivory = museumStone('ivory')
   const segments = useMemo(() => {
     const parts: THREE.BufferGeometry[] = []
@@ -20,22 +22,31 @@ export function RotundaWalls() {
     for (let i = 0; i < count; i++) {
       const a = (i+0.5) * TWO_PI/count
       if (blocked(a)) continue
-      parts.push(new THREE.CylinderGeometry(RADIUS - 0.1, RADIUS - 0.1, 7.7, 4, 1, true,
-        Math.PI-(i+1)*TWO_PI/count, TWO_PI/count+0.001))
+      const geometry = new THREE.CylinderGeometry(RADIUS - 0.1, RADIUS - 0.1, 7.7, 4, 1, true,
+        Math.PI-(i+1)*TWO_PI/count, TWO_PI/count+0.001)
+      const uv = geometry.attributes.uv
+      const arc = (RADIUS - 0.1) * TWO_PI / count
+      for (let j = 0; j < uv.count; j++) uv.setXY(j, (i + 1 - uv.getX(j)) * arc / 3, uv.getY(j) * 7.7 / 3)
+      parts.push(geometry)
     }
-    return parts
+    const merged = mergeGeometries(parts)
+    parts.forEach(part => part.dispose())
+    return merged
   }, [])
   // Cylinder meshes are double sided: the viewer must see the interior.
   const inner = useMemo(() => { const m = wall.clone(); m.side = THREE.DoubleSide; return m }, [wall])
   const rim = useMemo(() => new THREE.TorusGeometry(RADIUS-0.06, 0.16, 8, 112), [])
+  const drum = useMemo(() => {
+    const geometry = new THREE.CylinderGeometry(RADIUS+0.25,RADIUS+0.25,0.76,112,1,true)
+    const uv = geometry.attributes.uv
+    for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * TWO_PI * (RADIUS+0.25) / 3, uv.getY(i) * 0.76 / 3)
+    return geometry
+  }, [])
   return (
     <group>
-      {segments.map((geometry, index) => <mesh key={index} geometry={geometry} material={inner} position={[0,3.85,0]} receiveShadow />)}
+      <mesh geometry={segments} material={inner} position={[0,3.85,0]} receiveShadow />
       {/* Continuous frieze above the door lintels, set into the dome drum. */}
-      <mesh position={[0,7.78,0]}>
-        <cylinderGeometry args={[RADIUS+0.25,RADIUS+0.25,0.76,112,1,true]}/>
-        <primitive object={inner} attach="material" />
-      </mesh>
+      <mesh geometry={drum} material={inner} position={[0,7.78,0]} />
       {[7.33, 7.7, 8.12].map((height,i) => (
         <mesh key={height} geometry={rim} material={i===1?museumBronze:ivory}
           position={[0,height,0]} rotation={[Math.PI/2,0,0]} scale={[1,1,i===1?0.32:1]} />

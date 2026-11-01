@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import * as THREE from 'three'
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 import { museumBronze, museumStone } from './museumMaterials'
 
 export interface DomeProps {
@@ -26,10 +27,12 @@ export function Dome({ radius = 11.5, baseHeight = 8.1, oculusAngle = 0.27 }: Do
         tiles.push(new THREE.SphereGeometry(radius-0.055,3,2,start,span,theta0+0.018,0.18))
       }
     }
-    return tiles
+    const merged = mergeGeometries(tiles)
+    tiles.forEach(geometry => geometry.dispose())
+    return merged
   },[radius])
   const ribs = useMemo(() => {
-    return Array.from({length:24},(_,i)=>{
+    const pieces = Array.from({length:24},(_,i)=>{
       const a=i*Math.PI*2/24
       const points:THREE.Vector3[]=[]
       for(let j=0;j<=24;j++){
@@ -38,12 +41,15 @@ export function Dome({ radius = 11.5, baseHeight = 8.1, oculusAngle = 0.27 }: Do
       }
       return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points),24,0.040,5,false)
     })
+    const merged = mergeGeometries(pieces)
+    pieces.forEach(geometry => geometry.dispose())
+    return merged
   },[radius,oculusAngle])
   return (
     <group position={[0,baseHeight,0]}>
       <mesh geometry={shell} material={inner} receiveShadow />
-      {cofferTiles.map((geo,i)=><mesh key={i} geometry={geo} material={dark} receiveShadow />)}
-      {ribs.map((geo,i)=><mesh key={i} geometry={geo} material={museumStone('ivory')} />)}
+      <mesh geometry={cofferTiles} material={dark} receiveShadow />
+      <mesh geometry={ribs} material={museumStone('ivory')} />
       {rings.map((th,i)=>{
         const r=(radius-0.08)*Math.sin(th)
         const y=(radius-0.08)*Math.cos(th)

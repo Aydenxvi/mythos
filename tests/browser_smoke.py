@@ -12,7 +12,7 @@ BASE = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:5173/'
 OUT = Path(sys.argv[2] if len(sys.argv) > 2 else '/tmp/mythos-browser-check')
 OUT.mkdir(parents=True, exist_ok=True)
 expect.set_options(timeout=60000)
-REPORT = {'renderer': 'Chromium / SwiftShader (software)', 'checks': [], 'errors': [], 'models': []}
+REPORT = {'renderer': 'Chromium / SwiftShader (software)', 'checks': [], 'errors': [], 'models': [], 'textures': []}
 
 with sync_playwright() as p:
     browser = p.chromium.launch(executable_path=os.environ.get('CHROMIUM_PATH', '/usr/bin/chromium'), headless=True,
@@ -21,6 +21,7 @@ with sync_playwright() as p:
     page.set_default_timeout(60000)
     page.on('pageerror', lambda e: REPORT['errors'].append(str(e)))
     page.on('response', lambda r: REPORT['models'].append({'name':r.url.rsplit('/',1)[-1],'status':r.status}) if '.glb' in r.url else None)
+    page.on('response', lambda r: REPORT['textures'].append({'name':r.url.rsplit('/',1)[-1],'status':r.status}) if '/textures/' in r.url and '.jpg' in r.url else None)
     # Exercise the audio UI deterministically; actual device audio is a manual check.
     page.add_init_script("window.__spoken = 0; speechSynthesis.speak = () => { window.__spoken++ }; speechSynthesis.cancel = () => {}")
     page.goto(BASE + '?diagnostics=1', wait_until='networkidle')
@@ -32,11 +33,6 @@ with sync_playwright() as p:
     expect(nav.get_by_role('button', name='Greece', exact=True)).to_be_enabled()
     page.get_by_label('Graphics quality').select_option('eco')
     page.screenshot(animations='disabled', path=str(OUT/'atrium.png'))
-    page.get_by_role('button', name='TOUR', exact=True).click()
-    page.get_by_role('button', name='Travel to Hellas', exact=True).click()
-    page.get_by_role('button', name='Inspect Athena', exact=True).click()
-    expect(page.get_by_role('button', name='Back to Greece', exact=True)).to_be_enabled()
-
     def loaded():
         page.wait_for_function("""() => {
           let count = 0;
@@ -57,6 +53,38 @@ with sync_playwright() as p:
           await new Promise(requestAnimationFrame); await new Promise(requestAnimationFrame);
           d.renderer.getContext().finish();
         }""")
+
+    # The dense scan must never enter pointer raycasting. Selection uses a tiny
+    # invisible proxy; inspection removes all scene picking handlers.
+    nav.get_by_role('button', name='Greece', exact=True).click()
+    expect(nav.get_by_role('button', name='Rome', exact=True)).to_be_enabled()
+    loaded()
+    targets = page.evaluate("""() => {
+      const d=window.mythosDiagnostics, result=[];
+      d.scene.updateMatrixWorld(true);
+      d.scene.traverse(o => {
+        if(!o.__r3f?.eventCount) return;
+        let triangles=0;
+        o.traverse(child => { if(child.isMesh) triangles+=(child.geometry.index?.count ?? child.geometry.attributes.position.count)/3 });
+        const point=o.getWorldPosition(o.position.clone()).project(d.camera);
+        result.push({name:o.name,triangles,x:point.x,y:point.y});
+      });
+      return result;
+    }""")
+    assert len(targets) == 1 and targets[0]['name'] == 'exhibit-hit-target' and targets[0]['triangles'] == 12, targets
+    bounds = page.locator('canvas').bounding_box()
+    page.mouse.click(bounds['x']+(targets[0]['x']+1)*bounds['width']/2,
+                     bounds['y']+(1-targets[0]['y'])*bounds['height']/2)
+    expect(page.get_by_role('button', name='Back to Greece', exact=True)).to_be_enabled()
+    assert page.evaluate("""() => {let count=0;window.mythosDiagnostics.scene.traverse(o=>{if(o.__r3f?.eventCount)count++});return count}""") == 0
+    page.keyboard.press('Escape')
+    nav.get_by_role('button', name='Atrium', exact=True).click()
+    expect(nav.get_by_role('button', name='Greece', exact=True)).to_be_enabled()
+    REPORT['checks'].append('3D sculpture click uses a 12-triangle proxy; inspection registers zero picking targets')
+    page.get_by_role('button', name='TOUR', exact=True).click()
+    page.get_by_role('button', name='Travel to Hellas', exact=True).click()
+    page.get_by_role('button', name='Inspect Athena', exact=True).click()
+    expect(page.get_by_role('button', name='Back to Greece', exact=True)).to_be_enabled()
 
     loaded()
     REPORT['quality'] = []
@@ -192,6 +220,7 @@ with sync_playwright() as p:
     assert any('placeholder' in w for w in warnings), warnings
     fallback.screenshot(animations='disabled', path=str(OUT/'missing-model.png'))
     REPORT['checks'].append('Missing GLB: boundary displays fallback and navigation remains usable')
+    assert len({t['name'] for t in REPORT['textures'] if t['status'] == 200}) == 9, REPORT['textures']
     assert not REPORT['errors'], REPORT['errors']
     (OUT/'browser-results.json').write_text(json.dumps(REPORT, indent=2))
     print(json.dumps({k:v for k,v in REPORT.items() if k!='software_timing'}, indent=2), flush=True)

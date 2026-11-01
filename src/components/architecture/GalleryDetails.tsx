@@ -1,6 +1,21 @@
+import * as THREE from 'three'
+import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 import { museumBronze, darkBronze, museumStone } from './museumMaterials'
 import { ROOM_DEPTH_EXPORT as DEPTH, ROOM_WIDTH_EXPORT as WIDTH } from '../../data/world'
 import type { Civilization } from '../../types/museum'
+
+const greekFrieze = (() => {
+  const parts: THREE.BufferGeometry[] = []
+  for (let i = 0; i < 22; i++) {
+    const x = -3.52 + i * .335
+    parts.push(new THREE.BoxGeometry(.20,.035,.035).translate(x,0,0))
+    parts.push(new THREE.BoxGeometry(.032,.19,.035).translate(x+.10,.095,0))
+    parts.push(new THREE.BoxGeometry(.12,.035,.035).translate(x+.14,.19,0))
+  }
+  const geometry = mergeGeometries(parts)
+  parts.forEach(part => part.dispose())
+  return geometry
+})()
 
 /** Quiet architectural decoration, deliberately not passed off as original antiquities. */
 export function GalleryDetails({ civ }: { civ: Civilization }) {
@@ -21,14 +36,7 @@ export function GalleryDetails({ civ }: { civ: Civilization }) {
     <mesh material={pale} rotation={[-Math.PI/2,0,0]} position={[0,.027,-DEPTH*.12]}><ringGeometry args={[2.19,2.26,96]}/></mesh>
     {civ==='greece'&&<group>
       {/* Repeated angular frieze, derived from the rhythm of a Greek key. */}
-      {Array.from({length:22},(_,i)=>{
-        const x=-3.52+i*.335
-        return <group key={i} position={[x,4.58,-DEPTH/2+.38]}>
-          <mesh material={edge} position={[0,0,0]}><boxGeometry args={[.20,.035,.035]}/></mesh>
-          <mesh material={edge} position={[.10,.095,0]}><boxGeometry args={[.032,.19,.035]}/></mesh>
-          <mesh material={edge} position={[.14,.19,0]}><boxGeometry args={[.12,.035,.035]}/></mesh>
-        </group>
-      })}
+      <mesh geometry={greekFrieze} material={edge} position={[0,4.58,-DEPTH/2+.38]} />
       <mesh material={pale} position={[0,4.8,-DEPTH/2+.30]}><boxGeometry args={[WIDTH-1.5,.12,.12]}/></mesh>
     </group>}
     {civ==='rome'&&<group>

@@ -1,6 +1,6 @@
 # MYTHOS — The Eternal Museum
 
-**Version 1.2.0 · MYTHOS_010 · Complete interactive portfolio demo**
+**Version 1.2.1 · MYTHOS_010 · Complete interactive portfolio demo**
 
 *A museum outside of time. The gods have faded. Their stories remain.*
 
@@ -8,7 +8,7 @@ MYTHOS is a responsive, fully client-side 3D museum exploring three distinct myt
 
 ## Quick start — Windows / Быстрый запуск
 
-1. Extract `MYTHOS_010.zip` into a **new folder**. Open the `MYTHOS_010` folder.
+1. Extract `MYTHOS_010.zip` into a **new folder**. Open the extracted folder containing `package.json` (GitHub names it `mythos-main`).
 2. Install **Node.js 22 LTS or later** if needed.
 3. Double-click **`START_MYTHOS_WINDOWS.bat`** to install dependencies on first run and open the site.
 4. Stop the development server by closing the terminal or pressing `Ctrl+C`.
@@ -45,13 +45,13 @@ Run `npm run build` before publishing. **Never open `index.html` directly from d
 ## Technical architecture
 
 - Vite, React 18, TypeScript strict mode, React Three Fiber / Three.js, Drei, GSAP.
-- Reusable procedural museum architecture with distinct PBR materials and lighting.
+- Reusable museum architecture with local photographic wall materials: 2K color plus normal/roughness maps, consistent physical texture scale, merged static decoration and simplified pointer picking.
 - Three local, optimized GLB artworks. ECO uses light variants; BALANCED uses detailed meshes and 2K maps; HIGH adds Athena’s original 4K texture. See WHAT_IS_NEW_010.md.
 - Lazy gallery code, isolated Suspense boundaries, on-demand canvas rendering, reduced-motion support, and manual quality control.
 - Typed exhibit data and state-machine-driven navigation without a backend or database.
 - Navigation regression tests and GLB integrity checks, CI validation, and Pages deployment workflow.
 
-Key directories: `src/scenes` (galleries), `src/components/architecture` (procedural rotunda and gallery construction), `src/systems/camera` (GSAP route controller), `src/data` (museum narrative and metadata), `src/components/ui` (HTML exhibition interface), `public/models` (licensed 3D art), `tests` (navigation regression tests).
+Key directories: `src/scenes` (galleries), `src/components/architecture` (procedural rotunda and gallery construction), `src/systems/camera` (GSAP route controller), `src/data` (museum narrative and metadata), `src/components/ui` (HTML exhibition interface), `public/models` (licensed 3D art), `public/textures` (local CC0 wall materials), `tests` (navigation regression tests).
 
 ## Publish on GitHub Pages
 
@@ -71,7 +71,7 @@ No blanket license is granted over third-party artwork. The museum is an indepen
 
 ## Verification and honest limitations
 
-- Locally verifiable: navigation state tests, eight GLB validation checks, import/syntax checks, and archive integrity.
+- Locally verifiable: navigation/graphics/UV tests, eight GLB integrity checks and nine wall-texture checksums, plus the browser regression described below.
 - CI checks: frozen npm install, navigation, assets, TypeScript, lint and production Vite build; deploy only if successful.
 - MYTHOS_010 validation and its limits are documented in `WHAT_IS_NEW_010.md`. Optional browser regression: install Python Playwright separately and run `python tests/browser_smoke.py` against a running development server. It uses installed Chromium with software WebGL; set `CHROMIUM_PATH` if needed. Device audio and consumer-GPU frame rates still require hardware testing.
 - Performance and speech synthesis depend on the visitor's device and browser. Three featured exhibits are presented, not an exhaustive mythology encyclopedia.
@@ -85,6 +85,8 @@ No blanket license is granted over third-party artwork. The museum is an indepen
 | HIGH | 2 | 16 | 2048 | Detailed meshes / Athena 4K, Zeus and Anubis up to 2K |
 
 DPR never exceeds the display's native ratio; anisotropy respects the GPU limit. MSAA stays enabled for all presets because changing a live WebGL context's antialias flag is unsupported. HIGH retains a practical 283,727-triangle Athena derivative rather than rendering all 746,662 master triangles.
+
+Walls use the same local 2K color and 1K normal/roughness maps in all three presets, with consistent texture density.
 
 Add `?diagnostics=1` to the served address to inspect `window.mythosDiagnostics.snapshot()` in the browser console (draw calls, triangles, resource counts and camera). No developer overlay is shown. This is opt-in and is not a performance guarantee.
 
@@ -100,3 +102,9 @@ npm run dev -- --open
 ```
 
 The Windows launch/build scripts now check `node_modules/.bin/vite.cmd`, `tsc.cmd` and `eslint.cmd` before deciding that installation is complete. They repair missing commands using the frozen lockfile, including development dependencies and command links. No global Vite installation is needed.
+
+## Persistent low frame rate in Edge
+
+Version 1.2.1 removes expensive scan raycasting during mouse movement and batches static architecture. The measured before/after changes and browser checks are in `WHAT_IS_NEW_010.md`.
+
+If performance stays low even in ECO, inspect `edge://gpu`: WebGL/WebGL2 should report hardware acceleration. Edge's System and performance settings include “Use graphics acceleration when available”; changing it requires a browser restart. On a laptop with two GPUs, Windows Settings → System → Display → Graphics can select the high-performance GPU for Edge. These are troubleshooting checks, not confirmed causes on a particular device.

@@ -1,0 +1,23 @@
+{
+  "node": "v24.19.0",
+  "version": "1.2.1",
+  "unit_tests": {
+    "navigation": 6,
+    "graphics_camera": 2,
+    "surface_uv_density": 1,
+    "failed": 0
+  },
+  "assets": {
+    "glb_valid": 8,
+    "texture_sha256_valid": 9
+  },
+  "typecheck": "passed via tsc -b in build",
+  "lint": {
+    "errors": 0,
+    "inherited_fast_refresh_warnings": 4
+  },
+  "production_build": "passed; existing large main-bundle warning",
+  "browser_regression": "passed: 7 groups, no unhandled JavaScript errors",
+  "pointer_idle": "passed after animation settling; raw samples in pointer-idle.json",
+  "hardware_limit": "Chromium 154 / SwiftShader on Linux; RTX 3050 and native Windows Edge not available"
+}

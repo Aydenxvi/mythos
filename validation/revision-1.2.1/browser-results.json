@@ -1,0 +1,287 @@
+{
+  "renderer": "Chromium / SwiftShader (software)",
+  "checks": [
+    "3D sculpture click uses a 12-triangle proxy; inspection registers zero picking targets",
+    "Athena: quality budgets, tabs, symbol, journal, audio control, orbit/zoom, Escape",
+    "Three-stop tour, cross-room navigation, atlas/timeline, persisted journal",
+    "Repeated warmed room circuit has stable GPU resource counts",
+    "Cinematic route completes; INSTANT finishes active travel",
+    "390px mobile: separate artwork viewport, no horizontal overflow, reduced motion",
+    "Missing GLB: boundary displays fallback and navigation remains usable"
+  ],
+  "errors": [],
+  "models": [
+    {
+      "name": "athena-walston-lite.glb",
+      "status": 200
+    },
+    {
+      "name": "athena-balanced.glb",
+      "status": 200
+    },
+    {
+      "name": "athena-high.glb",
+      "status": 200
+    },
+    {
+      "name": "zeus-lite.glb",
+      "status": 200
+    },
+    {
+      "name": "zeus-optimized.glb",
+      "status": 200
+    },
+    {
+      "name": "anubis-detail.glb",
+      "status": 200
+    },
+    {
+      "name": "athena-high.glb",
+      "status": 200
+    },
+    {
+      "name": "anubis-detail.glb",
+      "status": 200
+    },
+    {
+      "name": "zeus-optimized.glb",
+      "status": 200
+    },
+    {
+      "name": "athena-walston-lite.glb",
+      "status": 200
+    },
+    {
+      "name": "anubis-optimized.glb",
+      "status": 200
+    }
+  ],
+  "textures": [
+    {
+      "name": "plastered_wall_04_color.jpg",
+      "status": 200
+    },
+    {
+      "name": "plastered_wall_04_normal.jpg",
+      "status": 200
+    },
+    {
+      "name": "plastered_wall_04_roughness.jpg",
+      "status": 200
+    },
+    {
+      "name": "sandstone_blocks_08_color.jpg",
+      "status": 200
+    },
+    {
+      "name": "sandstone_blocks_08_normal.jpg",
+      "status": 200
+    },
+    {
+      "name": "sandstone_blocks_08_roughness.jpg",
+      "status": 200
+    },
+    {
+      "name": "marble_01_color.jpg",
+      "status": 200
+    },
+    {
+      "name": "marble_01_normal.jpg",
+      "status": 200
+    },
+    {
+      "name": "marble_01_roughness.jpg",
+      "status": 200
+    },
+    {
+      "name": "plastered_wall_04_color.jpg",
+      "status": 304
+    },
+    {
+      "name": "plastered_wall_04_normal.jpg",
+      "status": 304
+    },
+    {
+      "name": "plastered_wall_04_roughness.jpg",
+      "status": 304
+    },
+    {
+      "name": "sandstone_blocks_08_color.jpg",
+      "status": 304
+    },
+    {
+      "name": "sandstone_blocks_08_normal.jpg",
+      "status": 304
+    },
+    {
+      "name": "sandstone_blocks_08_roughness.jpg",
+      "status": 304
+    },
+    {
+      "name": "marble_01_color.jpg",
+      "status": 200
+    },
+    {
+      "name": "marble_01_normal.jpg",
+      "status": 200
+    },
+    {
+      "name": "marble_01_roughness.jpg",
+      "status": 200
+    }
+  ],
+  "quality": [
+    {
+      "quality": "eco",
+      "dpr": 1,
+      "calls": 47,
+      "triangles": 114331,
+      "memory": {
+        "geometries": 98,
+        "textures": 14
+      },
+      "camera": [
+        2.7750496468679004e-15,
+        3.1500000000000035,
+        -22.660000000000004
+      ]
+    },
+    {
+      "quality": "balanced",
+      "dpr": 1.5,
+      "calls": 47,
+      "triangles": 290247,
+      "memory": {
+        "geometries": 105,
+        "textures": 16
+      },
+      "camera": [
+        2.775049646867898e-15,
+        3.1500000000000035,
+        -22.660000000000004
+      ]
+    },
+    {
+      "quality": "high",
+      "dpr": 2,
+      "calls": 47,
+      "triangles": 290247,
+      "memory": {
+        "geometries": 112,
+        "textures": 17
+      },
+      "camera": [
+        2.7750496468678953e-15,
+        3.1500000000000035,
+        -22.660000000000004
+      ]
+    },
+    {
+      "quality": "balanced",
+      "dpr": 1.5,
+      "calls": 47,
+      "triangles": 290247,
+      "memory": {
+        "geometries": 112,
+        "textures": 17
+      },
+      "camera": [
+        2.7750496468678937e-15,
+        3.1500000000000035,
+        -22.660000000000004
+      ]
+    },
+    {
+      "quality": "eco",
+      "dpr": 1,
+      "calls": 47,
+      "triangles": 114331,
+      "memory": {
+        "geometries": 112,
+        "textures": 16
+      },
+      "camera": [
+        2.7750496468678917e-15,
+        3.1500000000000035,
+        -22.660000000000004
+      ]
+    }
+  ],
+  "warm_circuit_memory": [
+    {
+      "geometries": 240,
+      "textures": 27
+    },
+    {
+      "geometries": 240,
+      "textures": 27
+    },
+    {
+      "geometries": 240,
+      "textures": 27
+    }
+  ],
+  "software_timing": {
+    "draw_ms": [
+      303.6000000014901,
+      674.7000000029802,
+      1.5,
+      1.6999999955296516,
+      2.2999999970197678,
+      1.7000000029802322,
+      2.899999998509884,
+      19.700000002980232,
+      1.9000000059604645,
+      4.300000004470348,
+      2.2999999970197678,
+      2.399999998509884,
+      1.5,
+      3.600000001490116,
+      1.7999999970197678,
+      1.4000000059604645,
+      1.5,
+      1.2999999970197678,
+      1.1000000014901161,
+      1.2999999970197678,
+      1.2000000029802322,
+      1.1000000014901161,
+      1.2000000029802322,
+      1.1999999955296516,
+      1.1000000014901161,
+      1.7000000029802322,
+      1.2000000029802322,
+      1,
+      0.8999999985098839,
+      1,
+      1.0999999940395355,
+      1.0999999940395355,
+      0.8999999985098839,
+      1.0999999940395355,
+      0.9000000059604645,
+      1,
+      1,
+      1.1000000014901161,
+      1.0999999940395355,
+      1,
+      1,
+      1,
+      1,
+      950.3999999985099
+    ],
+    "raf_intervals_ms": [
+      607.7300000044706,
+      299.97000000000116,
+      16.599999999998545,
+      16.700000000000728,
+      750,
+      683.2999999999993,
+      16.700000000000728,
+      16.599999999998545,
+      1466.6000000000022,
+      16.69999999999709,
+      416.7000000000007,
+      466.6000000000022,
+      833.2999999999993
+    ]
+  }
+}

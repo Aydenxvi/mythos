@@ -5,6 +5,7 @@ import { useMuseumState } from './AppStateContext'
 import { ROOM_ORDER } from '../data/world'
 import type { Civilization, ExhibitData } from '../types/museum'
 import { museumStone } from '../components/architecture/museumMaterials'
+import { wallMaterial } from '../components/architecture/surfaceMaterials'
 
 const GreeceRoom = lazy(() => import('../scenes/Greece/GreeceRoom').then((m) => ({ default: m.GreeceRoom })))
 const RomeRoom = lazy(() => import('../scenes/Rome/RomeRoom').then((m) => ({ default: m.RomeRoom })))
@@ -25,9 +26,12 @@ const EgyptRoom = lazy(() => import('../scenes/Egypt/EgyptRoom').then((m) => ({ 
 export function MuseumWorld() {
   const { state, dispatch } = useMuseumState()
   useEffect(() => {
-    // Prepare inexpensive room code and procedural materials before travel.
+    // Fetch local wall maps and room code during idle time, before first travel.
     const warm = () => {
-      for (const kind of ['ivory', 'travertine', 'sandstone', 'limestone'] as const) museumStone(kind)
+      for (const kind of ['ivory', 'travertine', 'sandstone', 'limestone'] as const) {
+        museumStone(kind)
+        wallMaterial(kind)
+      }
       void import('../scenes/Greece/GreeceRoom')
       void import('../scenes/Rome/RomeRoom')
       void import('../scenes/Egypt/EgyptRoom')
@@ -62,10 +66,12 @@ export function MuseumWorld() {
 
   return (
     <group>
-      <Atrium onSelectRoom={handleSelectRoom} interactive={canInteract && state.appState === 'ATRIUM'} />
-      {ROOM_ORDER.map((civ) => (
-        <Passage key={civ} civ={civ} />
-      ))}
+      {/* Settled room cameras and bounded exhibit orbits face the gallery.
+          Keep the hub visible during travel, then omit its meshes and lights. */}
+      <group visible={!state.activeRoom || state.isTransitioning}>
+        <Atrium onSelectRoom={handleSelectRoom} interactive={canInteract && state.appState === 'ATRIUM'} />
+        {ROOM_ORDER.map((civ) => <Passage key={civ} civ={civ} />)}
+      </group>
       {visited.current.has('greece') && <Suspense fallback={null}><group visible={roomsToRender.has('greece')}>
           <GreeceRoom
             onSelectExhibit={handleSelectExhibit}

@@ -3,6 +3,7 @@ import { readFileSync, existsSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const names = [
@@ -29,4 +30,14 @@ for (const name of names) {
 for (const file of ['index.html', 'public/favicon.svg', 'public/credits.html', 'ASSET_CREDITS.md', 'README.md']) {
   assert.ok(existsSync(join(root, file)), `Missing public asset or documentation: ${file}`)
 }
-console.log('All public model files and release resources are valid.')
+const textures = JSON.parse(readFileSync(join(root, 'public/textures/sources.json'), 'utf8'))
+assert.equal(textures.length, 9, 'Expected color, normal and roughness maps for three wall materials')
+for (const texture of textures) {
+  const buffer = readFileSync(join(root, 'public/textures', texture.file))
+  assert.equal(buffer.length, texture.bytes, `Texture length mismatch: ${texture.file}`)
+  assert.equal(createHash('sha256').update(buffer).digest('hex'), texture.sha256, `Texture checksum mismatch: ${texture.file}`)
+  assert.equal(buffer.readUInt16BE(0), 0xffd8, `Invalid JPEG: ${texture.file}`)
+  assert.equal(texture.license, 'CC0-1.0')
+  console.log(`✓ ${texture.file} (SHA-256 verified)`)
+}
+console.log('All public models, wall textures and release resources are valid.')

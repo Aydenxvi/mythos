@@ -5,14 +5,15 @@ function flutedShaft(flutes = 20, segments = 160): THREE.BufferGeometry {
   const vertices: number[] = []
   const indices: number[] = []
   const uvs: number[] = []
-  for (let iy = 0; iy <= 6; iy++) {
-    const t = iy / 6
+  // The shaft's taper is linear: intermediate vertical rings add no shape.
+  for (let iy = 0; iy <= 1; iy++) {
+    const t = iy
     for (let i = 0; i <= segments; i++) {
       const a = (i / segments) * Math.PI * 2
       const r = (0.465 - t * 0.035) - 0.027 * Math.pow((1 - Math.cos(a * flutes)) * 0.5, 1.4)
       vertices.push(Math.sin(a) * r, t - 0.5, Math.cos(a) * r)
       uvs.push(i / segments, t)
-      if (i < segments && iy < 6) {
+      if (i < segments && iy < 1) {
         const k = iy * (segments + 1) + i
         indices.push(k, k + segments + 1, k + 1, k + 1, k + segments + 1, k + segments + 2)
       }

@@ -39,7 +39,7 @@ function EntranceTarget({civ,interactive,onSelect}: {civ:Civilization,interactiv
   return <group ref={group} position={position} rotation={[0,-room.entranceAngle,0]}>
     <Archway position={[0,0,0]} rotationY={0} width={3.8} height={4.66} color={THEMES[civ].wall} />
     <EntranceInscription civ={civ}/>
-    <mesh position={[0,3,0.07]} onClick={enter} onPointerOver={over} onPointerOut={out}>
+    <mesh position={[0,3,0.07]} onClick={interactive ? enter : undefined} onPointerOver={interactive ? over : undefined} onPointerOut={interactive ? out : undefined}>
       <boxGeometry args={[4.15,6.35,0.16]} />
       <meshBasicMaterial transparent opacity={0} depthWrite={false}/>
     </mesh>

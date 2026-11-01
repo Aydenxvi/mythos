@@ -1,6 +1,6 @@
 # MYTHOS_010 — visual quality and performance stabilization
 
-Version 1.2.0. Continued from the supplied MYTHOS_009 source; the museum, mythology content, tour, atlas, journal, timeline, audio controls and static deployment model are retained.
+Initial version 1.2.0, revised to 1.2.1. Continued from the supplied MYTHOS_009 source; the museum, mythology content, tour, atlas, journal, timeline, audio controls and static deployment model are retained.
 
 ## Concrete changes
 
@@ -16,7 +16,7 @@ Version 1.2.0. Continued from the supplied MYTHOS_009 source; the museum, mythol
 - The artwork has its own viewport beside the information panel; mobile uses a separate upper viewport and lower reader. View artwork restores the full viewport. Existing navigation, keyboard and reduced-motion behavior are retained. TOUR/ATLAS/JOURNAL now have stable accessible names when their visible labels collapse on mobile.
 - Optional `?diagnostics=1` exposes render/resource/camera information in the console without an overlay or per-frame React state updates.
 
-## Validation
+## Original 1.2.0 validation (superseded by revision results below)
 
 Node.js 24.19.0 / npm 11.9.0; Chromium 154 with SwiftShader on Linux. Dependencies installed reproducibly with `npm ci --no-audit --no-fund`.
 
@@ -46,8 +46,42 @@ Actual WebGL screenshots are in `validation/`: welcome, atrium, Athena HIGH, Jup
 - Browser rendering here is software WebGL. Ordinary desktop/mobile GPU FPS, thermal behavior and prolonged memory use need testing on physical devices; no 60/30 FPS guarantee is made.
 - Audio start/stop controls are exercised with a deterministic speech API stub. Actual voices, sound output and touch gestures require a real device. Mobile testing uses a Chromium viewport, not physical hardware.
 - No new provenance or licensing claims: existing artist credits and CC BY attribution are retained. See ASSET_CREDITS.md.
-- Source files are prepared locally in `/workspace/mythos`; nothing was pushed to GitHub. Environment setup/start instructions are saved as a draft; publication and fresh-task restoration have not been performed.
+- The source was subsequently uploaded to `Aydenxvi/mythos` on GitHub. Cloud environment configuration remains a draft; fresh-task restoration was not tested.
 
 ## Files changed
 
 See `validation/changed-files.json` for the complete inventory relative to MYTHOS_009. Main changes: `src/systems/camera/CameraRig.tsx`, canvas lighting/rendering/diagnostics, exhibit model/tier selection, `src/graphics.ts`, gallery lifecycle, viewport CSS, model data, three generated detail GLBs, quality-tier generation and browser/graphics tests. README, asset credits and version metadata are updated. No backend or additional frontend dependencies were added.
+
+## Revision 1.2.1 — wall materials and persistent interaction cost
+
+A user reported poor walls and continuous lag in Edge on an RTX 3050 in BALANCED/ECO. The original release checks did not cover pointer raycasting or wall texture density. This revision addresses those gaps.
+
+- Replaced stretched 256px color-only wall textures with local Poly Haven photo materials: 2048px color plus 1024px OpenGL normal and roughness maps. Greece/atrium use plaster, Rome marble and Egypt sandstone blocks. Each material repeats at a fixed physical scale; all nine maps total 5.1 MB decimal / 4.8 MiB. They stay detailed in ECO as well. No new frontend dependency or external runtime request.
+- Removed dense sculpture meshes from R3F's pointer picking. Gallery selection uses one invisible 12-triangle box; no picking targets remain while inspecting. Previously, a handler returning early still incurred the entire scan's raycast before that handler ran.
+- Merged the Greek frieze, dome coffers/ribs and curved rotunda wall pieces into shared draw batches. Reduced redundant vertical divisions on linearly tapered column shafts without changing their outline.
+- Hide the atrium and passages after arrival inside a gallery, where the permitted camera range faces the gallery interior. Keep them visible throughout travel. Their lights also leave the render calculation inside the gallery.
+- Warm local wall images during idle time and reuse geometry/material caches. Windows command-link repair from the preceding update is retained.
+
+### Controlled before/after sample
+
+Same cloud Chromium/SwiftShader, 1280×800 CSS viewport, DPR 1, BALANCED, Athena inspection, no concurrent browser runs. The 40 rays used the actual scene objects registered with R3F and sampled a small grid aimed at Athena.
+
+| Measure | Before | After |
+|---|---:|---:|
+| Draw calls in Athena view | 121 | 47 |
+| Submitted triangles | 296,755 | 290,247 |
+| Registered picking targets during inspection | 4 | 0 |
+| Median CPU time per picking sample | 18.2 ms | Below timer resolution; no targets |
+| GPU geometry objects after first Athena load | 269 | 98 |
+| GPU texture objects after first Athena load | 10 | 15 |
+
+Raw samples and corresponding browser screenshots are in `validation/revision-1.2.1/before*` and `after*`. More texture objects are expected because the walls now have normal and roughness maps. Geometry/material batching and pointer changes preserve the artwork mesh and image tier. These numbers are CPU work/resource measurements, **not RTX 3050 frame-rate results**.
+
+### Revision validation
+
+- All nine Node assertions passed (six navigation, two graphics/camera, one UV-density regression). Eight GLBs and all nine texture SHA-256 checks passed. TypeScript/build succeeded. ESLint has zero errors and the same four existing Fast Refresh warnings; Vite retains its large main-bundle warning.
+- The production-browser regression passed all seven groups with no unhandled JavaScript errors: physical 3D target selection, artwork interaction and quality switching, the three-stop tour and archives, repeat visits, cinematic/instant travel, 390px mobile layout and missing-model fallback. All nine wall images returned HTTP 200.
+- Three warm gallery circuits each retained exactly 240 GPU geometries and 27 textures. See `validation/revision-1.2.1/browser-results.json` for the complete output and quality-tier measurements.
+- Actual browser screenshots for all three galleries are stored alongside that report. This run uses software WebGL; the user's RTX 3050 / Edge frame rate remains unmeasured.
+
+The focused pointer/idle test also passed: 40/40 sampled gallery rays hit the 12-triangle proxy (median below the timer's resolution; first cold sample 0.7 ms), zero registered targets during inspection, zero draws across two consecutive quiet seconds after settling, and zero draws for 40 pointer moves without a button pressed. Raw data: `validation/revision-1.2.1/pointer-idle.json`. Reproduce with `python tests/performance_smoke.py` against the production preview server. This removes the measured continuous input cost; it does not establish FPS on the user's machine.
